@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-volleyball',
   templateUrl: './volleyball.component.html',
   styleUrls: ['./volleyball.component.css']
 })
-export class VolleyballComponent implements OnInit {
+export class VolleyballComponent {
 
+  pos4:String = "" ;
   constructor() { }
 
-  ngOnInit(): void {
+  substitute(){
+    console.log(this.pos4);
   }
 
 }

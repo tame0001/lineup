@@ -1,0 +1,18 @@
+.col-sm {
+  border: 2px solid red;
+  border-radius: 250px;
+  height: 250px;
+  margin-left: 20px;
+  margin-right: 20px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+input {
+  border-radius: 25px;
+  border: 2px solid blue;
+  height: 50px;
+  width: 120px;
+  text-align: center;
+}
