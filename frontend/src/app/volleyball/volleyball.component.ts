@@ -7,11 +7,27 @@ import { Component } from '@angular/core';
 })
 export class VolleyballComponent {
 
-  pos4:String = "" ;
+  position:Array<string> = [
+    'OH',
+    'MB',
+    'SET',
+    'OH',
+    'MB',
+    'OPP'
+  ];
   constructor() { }
 
   substitute(){
-    console.log(this.pos4);
+    console.log(this.position);
   }
 
+  rotate(){
+    let temp = this.position[0];
+    for (let index = 0;
+         index < this.position.length -1;
+         index++) {
+      this.position[index] = this.position[index+1]
+    }
+    this.position[5] = temp;
+  }
 }
