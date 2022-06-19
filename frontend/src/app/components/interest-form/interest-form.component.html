@@ -1,23 +1,25 @@
 <mat-stepper orientation="vertical" [linear]="true" #stepper>
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
-      <ng-template matStepLabel>Fill out your name</ng-template>
+  <mat-step [stepControl]="playerInfoFormGroup">
+    <form [formGroup]="playerInfoFormGroup">
+      <ng-template matStepLabel>Your Info</ng-template>
       <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
-        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+        <input matInput placeholder="Last name, First name"
+        formControlName="playerInfoCtrl" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperNext>Next</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
-      <ng-template matStepLabel>Fill out your address</ng-template>
+
+  <mat-step [stepControl]="playerContactFormGroup">
+    <form [formGroup]="playerContactFormGroup">
+      <ng-template matStepLabel>Contact Info</ng-template>
       <mat-form-field appearance="fill">
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
+        <mat-label>Purdue Email</mat-label>
+        <input matInput formControlName="playerContactCtrl"
+        placeholder="Ex. 1 Main St, New York, NY" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
@@ -25,6 +27,15 @@
       </div>
     </form>
   </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Sports</ng-template>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     <p>You are now done.</p>

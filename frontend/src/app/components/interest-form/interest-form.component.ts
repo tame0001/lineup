@@ -8,11 +8,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class InterestFormComponent implements OnInit {
 
-  firstFormGroup = this._formBuilder.group({
-    firstCtrl: ['', Validators.required],
+  playerInfoFormGroup = this._formBuilder.group({
+    playerInfoCtrl: ['', Validators.required],
   });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
+  playerContactFormGroup = this._formBuilder.group({
+    playerContactCtrl: ['', Validators.required],
   });
 
   constructor(private _formBuilder: FormBuilder) { }
