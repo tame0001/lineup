@@ -1,17 +1,34 @@
 <mat-stepper orientation="vertical" [linear]="true" #stepper>
-  <mat-step [stepControl]="playerInfoFormGroup">
-    <form [formGroup]="playerInfoFormGroup">
+  <mat-step [stepControl]="playerInfoForm">
+    <form [formGroup]="playerInfoForm" (submit)="onSubmit()">
       <ng-template matStepLabel>Your Info</ng-template>
+
       <mat-form-field appearance="fill">
         <mat-label>Name</mat-label>
-        <input matInput placeholder="Last name, First name"
-        formControlName="playerInfoCtrl" required>
+        <input matInput 
+        placeholder="Prefer name"
+        formControlName="name" 
+        required>
+        <mat-error>Please enter your name</mat-error>
       </mat-form-field>
+
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <mat-label style="margin-right: 16px;">Gender:</mat-label>
+        <mat-radio-group aria-label="Select an option" formControlName="gender">
+          <mat-radio-button value="male">Male</mat-radio-button>
+          <mat-radio-button value="female">Female</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <mat-checkbox formControlName="isGrad" [labelPosition]="'before'">
+        Are you graduate student?</mat-checkbox>
+
+      <div style="padding-top: 8px;">
+        <button mat-button matStepperNext type="submit">Next</button>
       </div>
     </form>
   </mat-step>
+  <!-- TODO: explain necessity for each info with tooltip/dialog -->
 
   <mat-step [stepControl]="playerContactFormGroup">
     <form [formGroup]="playerContactFormGroup">

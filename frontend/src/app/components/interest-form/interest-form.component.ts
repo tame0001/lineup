@@ -8,9 +8,12 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class InterestFormComponent implements OnInit {
 
-  playerInfoFormGroup = this._formBuilder.group({
-    playerInfoCtrl: ['', Validators.required],
+  playerInfoForm = this._formBuilder.group({
+    name: [null, Validators.required],
+    gender: [null, Validators.required],
+    isGrad: [false]
   });
+
   playerContactFormGroup = this._formBuilder.group({
     playerContactCtrl: ['', Validators.required],
   });
@@ -18,6 +21,12 @@ export class InterestFormComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit() {
+    if (this.playerInfoForm.valid) {
+      console.log(this.playerInfoForm.value);
+    }
   }
 
 }
