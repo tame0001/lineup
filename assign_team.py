@@ -36,6 +36,8 @@ teams = split_players(players_g1, n_team)
 filing_teams = split_players(players_g0, n_team)
 
 for g0, g1 in zip(filing_teams, teams):
-    for player in g0 + g1:
+    players = g0 + g1
+    random.shuffle(players)
+    for player in players:
         print(player)
     print("-----")
