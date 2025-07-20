@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-interest-form',
-  templateUrl: './interest-form.component.html',
-  styleUrls: ['./interest-form.component.css'],
+    selector: 'app-interest-form',
+    templateUrl: './interest-form.component.html',
+    styleUrls: ['./interest-form.component.css'],
+    standalone: false
 })
 export class InterestFormComponent {
   playerInfoForm = this._formBuilder.group({
