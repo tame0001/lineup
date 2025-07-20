@@ -1,11 +1,40 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatStepper,
+  MatStep,
+  MatStepLabel,
+  MatStepperNext,
+  MatStepperPrevious,
+} from '@angular/material/stepper';
+import {
+  MatFormField,
+  MatLabel,
+  MatInput,
+  MatError,
+} from '@angular/material/input';
+import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
+import { MatCheckbox } from '@angular/material/checkbox';
 
 @Component({
-    selector: 'app-interest-form',
-    templateUrl: './interest-form.component.html',
-    styleUrls: ['./interest-form.component.css'],
-    standalone: false
+  selector: 'app-interest-form',
+  templateUrl: './interest-form.component.html',
+  styleUrls: ['./interest-form.component.css'],
+  imports: [
+    MatStepper,
+    MatStep,
+    ReactiveFormsModule,
+    MatStepLabel,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError,
+    MatRadioGroup,
+    MatRadioButton,
+    MatCheckbox,
+    MatStepperNext,
+    MatStepperPrevious,
+  ],
 })
 export class InterestFormComponent {
   playerInfoForm = this._formBuilder.group({
