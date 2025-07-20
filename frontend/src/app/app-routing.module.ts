@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InterestFormComponent } from './components/interest-form/interest-form.component';
+import { InterestFormComponent } from './interest-form/interest-form.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: InterestFormComponent
-  }
+    component: InterestFormComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
