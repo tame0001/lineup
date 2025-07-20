@@ -1,39 +1,20 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import {
-  MatStepper,
-  MatStep,
-  MatStepLabel,
-  MatStepperNext,
-  MatStepperPrevious,
-} from '@angular/material/stepper';
-import {
-  MatFormField,
-  MatLabel,
-  MatInput,
-  MatError,
-} from '@angular/material/input';
-import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
-import { MatCheckbox } from '@angular/material/checkbox';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormModule } from '@angular/material/input';
+import { MMatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-interest-form',
   templateUrl: './interest-form.component.html',
   styleUrls: ['./interest-form.component.css'],
   imports: [
-    MatStepper,
-    MatStep,
     ReactiveFormsModule,
-    MatStepLabel,
-    MatFormField,
-    MatLabel,
-    MatInput,
-    MatError,
-    MatRadioGroup,
-    MatRadioButton,
-    MatCheckbox,
-    MatStepperNext,
-    MatStepperPrevious,
+    MatFormModule,
+    MMatRadioModule,
+    MatCheckboxModule,
+    MatStepperModule,
   ],
 })
 export class InterestFormComponent {
