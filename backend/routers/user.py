@@ -33,7 +33,7 @@ class UserUpdate(UserBase):
 
 
 @router.get("/", response_model=list[UserRead])
-def read_users(db: Session = Depends(get_db)):
+async def read_users(db: Session = Depends(get_db)):
     """
     Retrieve all users from the database.
     """
@@ -42,7 +42,7 @@ def read_users(db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=UserRead)
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
+async def create_user(user: UserCreate, db: Session = Depends(get_db)):
     """
     Create a new user in the database.
     """
@@ -54,7 +54,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/{user_id}", response_model=UserRead)
-def read_user(user_id: int, db: Session = Depends(get_db)):
+async def read_user(user_id: int, db: Session = Depends(get_db)):
     """
     Retrieve a user by ID from the database.
     """
@@ -65,7 +65,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @router.delete("/{user_id}", response_model=UserRead)
-def delete_user(user_id: int, db: Session = Depends(get_db)):
+async def delete_user(user_id: int, db: Session = Depends(get_db)):
     """
     Delete a user by ID from the database.
     """
@@ -78,7 +78,9 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
 
 
 @router.patch("/{user_id}", response_model=UserRead)
-def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_db)):
+async def update_user(
+    user_id: int, user_data: UserUpdate, db: Session = Depends(get_db)
+):
     """
     Update a user by ID in the database.
     """
