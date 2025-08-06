@@ -23,6 +23,15 @@ class UserCreate(UserBase):
     pass
 
 
+class UserUpdate(UserBase):
+    """
+    UserUpdate model for updating existing users.
+    """
+
+    name: str | None = None
+    facebook: str | None = None
+
+
 @router.get("/", response_model=list[UserRead])
 def read_users(db: Session = Depends(get_db)):
     """
@@ -52,4 +61,33 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+    return user
+
+
+@router.delete("/{user_id}", response_model=UserRead)
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    """
+    Delete a user by ID from the database.
+    """
+    user = db.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.delete(user)
+    db.commit()
+    return user
+
+
+@router.patch("/{user_id}", response_model=UserRead)
+def update_user(user_id: int, user_data: UserUpdate, db: Session = Depends(get_db)):
+    """
+    Update a user by ID in the database.
+    """
+    user = db.get(User, user_id)
+    print(user)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.sqlmodel_update(User.model_dump(user_data, exclude_unset=True))
+    db.add(user)
+    db.commit()
+    db.refresh(user)
     return user
