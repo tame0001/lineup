@@ -3,13 +3,13 @@ from fastapi.testclient import TestClient
 from sqlmodel import create_engine, Session, SQLModel
 from sqlmodel.pool import StaticPool
 
-from .main import app
-from .dependencies import get_db
+from ..main import app
+from ..dependencies import get_db
 
 client = TestClient(app)
 
 
-@pytest.fixture(name="session")
+@pytest.fixture(name="session", scope="session")
 def session_fixture():
     engine = create_engine(
         "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
@@ -19,7 +19,7 @@ def session_fixture():
         yield session
 
 
-@pytest.fixture(name="client")
+@pytest.fixture(name="client", scope="session")
 def client_fixture(session: Session):
     def get_db_override():
         return session
@@ -29,9 +29,3 @@ def client_fixture(session: Session):
     client = TestClient(app)
     yield client
     app.dependency_overrides.clear()
-
-
-def test_read_users(client: TestClient):
-    response = client.get("/users/")
-    assert response.status_code == 200
-    assert isinstance(response.json(), list)

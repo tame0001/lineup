@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 
 from ..dependencies import get_db
@@ -41,12 +41,22 @@ async def read_users(db: Session = Depends(get_db)):
     return users
 
 
-@router.post("/", response_model=UserRead)
+def trim_facebook_url(facebook: str | None) -> str | None:
+    """
+    Helper function to trim the Facebook URL.
+    """
+    if facebook and facebook.startswith("https://www.facebook.com/"):
+        return facebook[len("https://www.facebook.com/") :]
+    return facebook
+
+
+@router.post("/", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserCreate, db: Session = Depends(get_db)):
     """
     Create a new user in the database.
     """
     user = User.model_validate(user)
+    user.facebook = trim_facebook_url(user.facebook)
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -85,9 +95,10 @@ async def update_user(
     Update a user by ID in the database.
     """
     user = db.get(User, user_id)
-    print(user)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+    if user_data.facebook:
+        user_data.facebook = trim_facebook_url(user_data.facebook)
     user.sqlmodel_update(User.model_dump(user_data, exclude_unset=True))
     db.add(user)
     db.commit()

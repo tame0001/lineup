@@ -3,3 +3,4 @@ sqlmodel==0.0.24
 alembic==1.16.*
 pytest==8.4.*
 requests==2.31.*
+pytest-order==1.3.*

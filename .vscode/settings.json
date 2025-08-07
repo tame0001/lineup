@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["Bundesliga", "poolclass", "UEFA"],
+  "cSpell.words": [
+    "Bundesliga",
+    "fastapi",
+    "poolclass",
+    "pytest",
+    "sqlmodel",
+    "UEFA"
+  ],
   "python.testing.pytestArgs": ["backend"],
   "python.testing.unittestEnabled": false,
   "python.testing.pytestEnabled": true
