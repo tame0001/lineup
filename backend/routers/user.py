@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
 
 from ..dependencies import get_db
-from ..models import UserBase, User
+from ..models import UserBase, User, GenderEnum
 
 router = APIRouter(prefix="/users", tags=["user"])
 
@@ -30,6 +30,7 @@ class UserUpdate(UserBase):
 
     name: str | None = None
     facebook: str | None = None
+    gender: GenderEnum | None = None
 
 
 @router.get("/", response_model=list[UserRead])
