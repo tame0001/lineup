@@ -16,3 +16,11 @@ class UserBase(SQLModel):
 
 class User(UserBase, table=True):
     id: int = Field(default=None, primary_key=True)
+
+
+class WeekBase(SQLModel):
+    pass
+
+
+class Week(WeekBase, table=True):
+    id: int = Field(default=None, primary_key=True)
