@@ -16,6 +16,7 @@ class UserBase(SQLModel):
 
 class User(UserBase, table=True):
     id: int = Field(default=None, primary_key=True)
+    password: str = Field()
 
 
 class WeekBase(SQLModel):

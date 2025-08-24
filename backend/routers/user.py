@@ -20,7 +20,7 @@ class UserCreate(UserBase):
     UserCreate model for creating new users.
     """
 
-    pass
+    password: str
 
 
 class UserUpdate(UserBase):
@@ -31,6 +31,7 @@ class UserUpdate(UserBase):
     name: str | None = None
     facebook: str | None = None
     gender: GenderEnum | None = None
+    password: str | None = None
 
 
 @router.get("/", response_model=list[UserRead])
