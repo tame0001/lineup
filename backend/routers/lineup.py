@@ -1,3 +1,4 @@
+import random
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select, SQLModel
 from datetime import datetime
@@ -11,6 +12,7 @@ router = APIRouter(prefix="/lineups", tags=["lineup"])
 class LineUpRead(SQLModel):
     date: datetime
     players: list[str]
+    n_players: int
 
 
 class LineUpCreate(SQLModel):
@@ -24,7 +26,17 @@ class LineUpDelete(LineUpCreate):
     pass
 
 
-@router.get("/{week_id}", response_model=LineUpRead)
+class RosterRead(SQLModel):
+    team: str
+    players: list[str]
+
+
+class TeamLineUpRead(SQLModel):
+    date: datetime
+    teams: list[RosterRead]
+
+
+@router.get("/{week_id}", response_model=TeamLineUpRead)
 def read_lineup(week_id: int, db: Session = Depends(get_db)):
     """
     Get the lineup for a specific week.
@@ -34,8 +46,36 @@ def read_lineup(week_id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="Match day not found"
         )
 
-    return LineUpRead(
-        date=match_day.date, players=[player.name for player in match_day.players]
+    # Assign team process
+    team_colors = ["no vest", "blue", "orange"]
+    # First check number of players
+    n_players = len(match_day.players)
+    # Decide number of teams
+    n_teams = 2 if n_players < 15 else 3
+    # Filter female players
+    female_players = [
+        player for player in match_day.players if player.gender == "female"
+    ]
+    random.shuffle(female_players)
+    # Filling team with female players
+    teams = [[] for _ in range(n_teams)]
+    for i, player in enumerate(female_players):
+        teams[i % n_teams].append(player)
+
+    # Fill remaining spots with male players
+    male_players = [player for player in match_day.players if player.gender == "male"]
+    random.shuffle(male_players)
+    for i, player in enumerate(male_players):
+        teams[n_teams - 1 - (i % n_teams)].append(player)
+
+    return TeamLineUpRead(
+        date=match_day.date,
+        teams=[
+            RosterRead(
+                team=team_colors[i], players=[player.name for player in teams[i]]
+            )
+            for i in range(n_teams)
+        ],
     )
 
 
@@ -102,7 +142,9 @@ def create_lineup(rsvp: LineUpCreate, db: Session = Depends(get_db)):
     db.refresh(match_day)
 
     return LineUpRead(
-        date=match_day.date, players=[player.name for player in match_day.players]
+        date=match_day.date,
+        players=[player.name for player in match_day.players],
+        n_players=len(match_day.players),
     )
 
 
@@ -128,5 +170,7 @@ def delete_lineup(rsvp: LineUpDelete, db: Session = Depends(get_db)):
     db.refresh(match_day)
 
     return LineUpRead(
-        date=match_day.date, players=[player.name for player in match_day.players]
+        date=match_day.date,
+        players=[player.name for player in match_day.players],
+        n_players=len(match_day.players),
     )
