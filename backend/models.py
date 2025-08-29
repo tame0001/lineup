@@ -1,6 +1,11 @@
 import enum
 from datetime import datetime
-from sqlmodel import Field, SQLModel, Enum, Column
+from sqlmodel import Field, Relationship, SQLModel, Enum, Column
+
+
+class MatchDayLineUp(SQLModel, table=True):
+    week_id: int = Field(foreign_key="week.id", primary_key=True)
+    user_id: int = Field(foreign_key="user.id", primary_key=True)
 
 
 class GenderEnum(str, enum.Enum):
@@ -20,6 +25,10 @@ class User(UserBase, table=True):
     id: int = Field(default=None, primary_key=True)
     password: str | None = Field(default=None, max_length=25)
 
+    appearances: list["Week"] = Relationship(
+        back_populates="players", link_model=MatchDayLineUp
+    )
+
 
 class WeekBase(SQLModel):
     date: datetime | None = Field(default=None)
@@ -27,3 +36,7 @@ class WeekBase(SQLModel):
 
 class Week(WeekBase, table=True):
     id: int = Field(default=None, primary_key=True)
+
+    players: list[User] = Relationship(
+        back_populates="appearances", link_model=MatchDayLineUp
+    )
