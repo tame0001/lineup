@@ -20,7 +20,7 @@ class UserCreate(UserBase):
     UserCreate model for creating new users.
     """
 
-    password: str
+    password: str | None = None
 
 
 class UserUpdate(UserBase):

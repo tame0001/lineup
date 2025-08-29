@@ -1,8 +1,8 @@
 """create tables
 
-Revision ID: 698826e9172c
+Revision ID: 35b2493c0ce7
 Revises: 
-Create Date: 2025-08-23 21:15:17.937365
+Create Date: 2025-08-28 23:15:13.549179
 
 """
 from typing import Sequence, Union
@@ -13,7 +13,7 @@ import sqlmodel.sql.sqltypes
 
 
 # revision identifiers, used by Alembic.
-revision: str = '698826e9172c'
+revision: str = '35b2493c0ce7'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,12 +25,14 @@ def upgrade() -> None:
     op.create_table('user',
     sa.Column('name', sqlmodel.sql.sqltypes.AutoString(length=50), nullable=False),
     sa.Column('facebook', sqlmodel.sql.sqltypes.AutoString(length=100), nullable=True),
+    sa.Column('last_login', sa.DateTime(), nullable=True),
     sa.Column('gender', sa.Enum('male', 'female', name='genderenum'), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('password', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('password', sqlmodel.sql.sqltypes.AutoString(length=25), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('week',
+    sa.Column('date', sa.DateTime(), nullable=True),
     sa.Column('id', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
