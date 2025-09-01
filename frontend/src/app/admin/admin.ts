@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { PlayerCard } from './player-card/player-card';
 
 @Component({
   selector: 'app-admin',
-  imports: [],
+  imports: [PlayerCard],
   templateUrl: './admin.html',
-  styleUrl: './admin.scss'
+  styleUrl: './admin.scss',
 })
-export class Admin {
-
-}
+export class Admin {}
