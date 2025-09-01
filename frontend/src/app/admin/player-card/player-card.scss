@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 mat-card {
   margin: 1rem;
   width: 15rem;
@@ -14,4 +16,9 @@ mat-card {
     justify-content: space-evenly;
     width: 100%;
   }
+}
+
+.out {
+  background-color: var(--mat-sys-inverse-surface);
+  color: var(--mat-sys-inverse-on-surface);
 }

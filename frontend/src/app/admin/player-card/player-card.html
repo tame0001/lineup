@@ -1,7 +1,7 @@
-<mat-card>
+<mat-card [class]="cardClass()">
   <mat-card-header>{{ playerName() }}</mat-card-header>
   <mat-card-actions>
-    <button mat-button>In</button>
-    <button mat-button>Out</button>
+    <button mat-button (click)="cardClass.set('')">In</button>
+    <button mat-button (click)="cardClass.set('out')">Out</button>
   </mat-card-actions>
 </mat-card>

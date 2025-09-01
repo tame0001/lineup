@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, effect, input, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -10,4 +10,16 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class PlayerCard {
   playerName = input<string>('Player Name');
+  playerRSVP = input<boolean>(false);
+  cardClass = signal<string>('');
+
+  constructor() {
+    effect(() => {
+      if (this.playerRSVP()) {
+        this.cardClass.set('');
+      } else {
+        this.cardClass.set('out');
+      }
+    });
+  }
 }
