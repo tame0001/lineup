@@ -1,5 +1,10 @@
 export interface Player {
   name: string;
   id: number;
-  rsvp: boolean;
+}
+
+export interface RSVP {
+  user_id: number;
+  week_id: number;
+  status: boolean;
 }

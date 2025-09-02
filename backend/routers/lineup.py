@@ -79,9 +79,7 @@ def read_lineup(week_id: int, db: Session = Depends(get_db)):
     )
 
 
-def verify_lineup_input(
-    data: LineUpCreate | LineUpDelete, db: Session
-) -> tuple[Week, User]:
+def verify_input(data: LineUpCreate | LineUpDelete, db: Session) -> tuple[Week, User]:
     """
     Verify that the player and match day information is valid.
     """
@@ -126,7 +124,7 @@ def create_lineup(rsvp: LineUpCreate, db: Session = Depends(get_db)):
     Add a player into the match day lineup.
     """
     # Verify that the input data is valid
-    match_day, player = verify_lineup_input(rsvp, db)
+    match_day, player = verify_input(rsvp, db)
 
     # Check if player is already in the match day lineup
     if player in match_day.players:
@@ -154,7 +152,7 @@ def delete_lineup(rsvp: LineUpDelete, db: Session = Depends(get_db)):
     Remove a player from the match day lineup.
     """
     # Verify that the input data is valid
-    match_day, player = verify_lineup_input(rsvp, db)
+    match_day, player = verify_input(rsvp, db)
 
     # Check if player is in the match day lineup
     if player not in match_day.players:

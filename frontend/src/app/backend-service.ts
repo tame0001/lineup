@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Player } from './data-interface';
+import { Player, RSVP } from './data-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,5 +13,9 @@ export class BackendService {
 
   getPlayers(): Observable<Player[]> {
     return this._http.get<Player[]>(`${this._baseUrl}/users`);
+  }
+
+  getPlayerRSVP(userId: number, weekId: number): Observable<RSVP> {
+    return this._http.get<RSVP>(`${this._baseUrl}/rsvp/${weekId}/${userId}`);
   }
 }

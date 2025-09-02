@@ -1,5 +1,5 @@
 <div class="card-container">
   @for (player of players(); track $index) {
-  <app-player-card [playerName]="player.name"></app-player-card>
+  <app-player-card [player]="player"></app-player-card>
   }
 </div>

@@ -17,11 +17,6 @@ export class Admin {
   constructor() {
     this._backend.getPlayers().subscribe((players) => {
       players = players.sort((a, b) => a.name.localeCompare(b.name));
-      // set temporary status to fallback value
-      players = players.map((player) => ({
-        ...player,
-        rsvp: player.rsvp ?? false,
-      }));
       this.players.set(players);
     });
   }
