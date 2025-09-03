@@ -3,10 +3,11 @@ import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { PlayerCard } from './player-card/player-card';
 import { BackendService } from '../backend-service';
 import { Player } from '../data-interface';
+import { SelectWeek } from '../select-week/select-week';
 
 @Component({
   selector: 'app-admin',
-  imports: [PlayerCard],
+  imports: [PlayerCard, SelectWeek],
   templateUrl: './admin.html',
   styleUrl: './admin.scss',
 })

@@ -1,6 +1,28 @@
-.card-container {
+@use "@angular/material" as mat;
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-row-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.config-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.rsvp-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+}
+
+.lineup-container {
+  display: flex;
 }

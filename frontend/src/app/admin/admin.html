@@ -1,5 +1,15 @@
-<div class="card-container">
-  @for (player of players(); track $index) {
-  <app-player-card [player]="player"></app-player-card>
-  }
+<div class="main-container">
+  <div class="top-row-container bg-red-500">
+    <div class="config-container bg-green-500">
+      <app-select-week></app-select-week>
+    </div>
+
+    <div class="rsvp-container bg-blue-500">
+      @for (player of players(); track $index) {
+      <app-player-card [player]="player"></app-player-card>
+      }
+    </div>
+  </div>
+
+  <div class="lineup-container"></div>
 </div>
