@@ -18,4 +18,8 @@ export class BackendService {
   getPlayerRSVP(userId: number, weekId: number): Observable<RSVP> {
     return this._http.get<RSVP>(`${this._baseUrl}/rsvp/${weekId}/${userId}`);
   }
+
+  postPlayerRSVP(rsvp: RSVP): Observable<RSVP> {
+    return this._http.post<RSVP>(`${this._baseUrl}/rsvp`, rsvp);
+  }
 }

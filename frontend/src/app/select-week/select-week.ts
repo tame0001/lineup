@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -11,4 +11,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   styleUrl: './select-week.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectWeek {}
+export class SelectWeek {
+  selectedDate = signal<Date | null>(null);
+}
