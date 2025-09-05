@@ -47,7 +47,7 @@ def read_lineup(week_id: int, db: Session = Depends(get_db)):
         )
 
     # Assign team process
-    team_colors = ["no vest", "blue", "orange"]
+    team_colors = ["yellow", "blue", "orange"]
     # First check number of players
     n_players = len(match_day.players)
     # Decide number of teams
