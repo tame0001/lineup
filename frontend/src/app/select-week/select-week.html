@@ -1,4 +1,10 @@
-<mat-card style="width: 350px">
-  <mat-calendar [selected]="selectedDate()"></mat-calendar>
-</mat-card>
-{{ selectedDate() }}
+<h4>mat-select</h4>
+<mat-form-field>
+  <mat-label>State</mat-label>
+  <mat-select>
+    <mat-option>None</mat-option>
+    @for (state of states; track state) {
+    <mat-option [value]="state">{{ state }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
