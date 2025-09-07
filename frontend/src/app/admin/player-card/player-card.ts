@@ -14,6 +14,7 @@ import { BackendService } from '../../backend-service';
 export class PlayerCard {
   player = input.required<Player>();
   cardClass = signal<string>('out');
+  rsvpInput = input<boolean>(false);
   rsvp = signal<RSVP | null>(null);
   // Temporary week id
   weekId = 1;
@@ -22,11 +23,12 @@ export class PlayerCard {
 
   constructor() {
     effect(() => {
-      this._backend
-        .getPlayerRSVP(this.player().id, this.weekId)
-        .subscribe((rsvp) => {
-          this.rsvp.set(rsvp);
-        });
+      const rsvp: RSVP = {
+        user_id: this.player().id,
+        week_id: this.weekId,
+        status: this.rsvpInput(),
+      };
+      this.rsvp.set(rsvp);
     });
 
     effect(() => {
@@ -38,7 +40,7 @@ export class PlayerCard {
   setRSVP(status: boolean) {
     this.rsvp.set({ user_id: this.player().id, week_id: this.weekId, status });
     this._backend.postPlayerRSVP(this.rsvp()!).subscribe((rsvp) => {
-      console.log('Updated RSVP:', rsvp);
+      console.log(`RSVP set for ${this.player().name}: ${rsvp.status}`);
     });
   }
 }

@@ -32,6 +32,28 @@ def read_rsvp(week_id: int, user_id: int, db: Session = Depends(get_db)):
     )
 
 
+@router.get("/{week_id}", response_model=list[RsvpRead])
+def read_rsvps(week_id: int, db: Session = Depends(get_db)):
+    # Check if week exists
+    if not (week := db.get(Week, week_id)):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Week not found"
+        )
+
+    players_in_week = {player.id for player in week.players}
+
+    rsvps = []
+    for user in week.players:
+        rsvps.append(
+            RsvpRead(
+                user_id=user.id,
+                week_id=week.id,
+                status=user.id in players_in_week,
+            )
+        )
+    return rsvps
+
+
 @router.post("/", response_model=RsvpRead, status_code=status.HTTP_201_CREATED)
 def create_rsvp(rsvp: RsvpCreate, db: Session = Depends(get_db)):
     # Verify user

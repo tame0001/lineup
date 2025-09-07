@@ -5,6 +5,7 @@
     "ghpages",
     "poolclass",
     "pytest",
+    "rsvps",
     "sqlmodel",
     "UEFA"
   ],

@@ -6,7 +6,10 @@
 
     <div class="rsvp-container bg-blue-500">
       @for (player of players(); track $index) {
-      <app-player-card [player]="player"></app-player-card>
+      <app-player-card
+        [player]="player"
+        [rsvpInput]="rsvps().includes(player.id)"
+      ></app-player-card>
       }
     </div>
   </div>
