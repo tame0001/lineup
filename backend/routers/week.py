@@ -11,7 +11,7 @@ class WeekRead(WeekBase):
     WeekRead model for reading week data.
     """
 
-    pass
+    id: int
 
 
 class WeekCreate(WeekBase):

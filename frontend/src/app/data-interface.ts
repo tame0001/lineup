@@ -8,3 +8,8 @@ export interface RSVP {
   week_id: number;
   status: boolean;
 }
+
+export interface MatchDay {
+  id: number;
+  date: string;
+}

@@ -1,66 +1,33 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 
+import { MatchDay } from '../data-interface';
+import { BackendService } from '../backend-service';
+import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-select-week',
-  imports: [MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule],
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
+    DatePipe,
+  ],
   templateUrl: './select-week.html',
   styleUrl: './select-week.scss',
 })
 export class SelectWeek {
-  states: string[] = [
-    'Alabama',
-    'Alaska',
-    'Arizona',
-    'Arkansas',
-    'California',
-    'Colorado',
-    'Connecticut',
-    'Delaware',
-    'Florida',
-    'Georgia',
-    'Hawaii',
-    'Idaho',
-    'Illinois',
-    'Indiana',
-    'Iowa',
-    'Kansas',
-    'Kentucky',
-    'Louisiana',
-    'Maine',
-    'Maryland',
-    'Massachusetts',
-    'Michigan',
-    'Minnesota',
-    'Mississippi',
-    'Missouri',
-    'Montana',
-    'Nebraska',
-    'Nevada',
-    'New Hampshire',
-    'New Jersey',
-    'New Mexico',
-    'New York',
-    'North Carolina',
-    'North Dakota',
-    'Ohio',
-    'Oklahoma',
-    'Oregon',
-    'Pennsylvania',
-    'Rhode Island',
-    'South Carolina',
-    'South Dakota',
-    'Tennessee',
-    'Texas',
-    'Utah',
-    'Vermont',
-    'Virginia',
-    'Washington',
-    'West Virginia',
-    'Wisconsin',
-    'Wyoming',
-  ];
+  private _backend = inject(BackendService);
+  matchDays = signal<MatchDay[]>([]);
+
+  constructor() {
+    this._backend.getMatchDays().subscribe((matchDays) => {
+      this.matchDays.set(matchDays);
+      console.table(matchDays);
+    });
+  }
 }
