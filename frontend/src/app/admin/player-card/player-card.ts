@@ -16,8 +16,7 @@ export class PlayerCard {
   cardClass = signal<string>('out');
   rsvpInput = input<boolean>(false);
   rsvp = signal<RSVP | null>(null);
-  // Temporary week id
-  weekId = 1;
+  weekID = input.required<number>();
 
   private _backend = inject(BackendService);
 
@@ -25,7 +24,7 @@ export class PlayerCard {
     effect(() => {
       const rsvp: RSVP = {
         user_id: this.player().id,
-        week_id: this.weekId,
+        week_id: this.weekID(),
         status: this.rsvpInput(),
       };
       this.rsvp.set(rsvp);
@@ -38,7 +37,11 @@ export class PlayerCard {
   }
 
   setRSVP(status: boolean) {
-    this.rsvp.set({ user_id: this.player().id, week_id: this.weekId, status });
+    this.rsvp.set({
+      user_id: this.player().id,
+      week_id: this.weekID(),
+      status,
+    });
     this._backend.postPlayerRSVP(this.rsvp()!).subscribe((rsvp) => {
       console.log(`RSVP set for ${this.player().name}: ${rsvp.status}`);
     });

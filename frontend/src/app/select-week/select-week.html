@@ -1,6 +1,9 @@
 <mat-form-field>
   <mat-label>Match Day</mat-label>
-  <mat-select>
+  <mat-select
+    (selectionChange)="selectedMatchDay.set($event.value)"
+    [value]="selectedMatchDay()"
+  >
     @for (matchDay of matchDays(); track matchDay.id) {
     <mat-option [value]="matchDay.id">{{
       matchDay.date | date : "mediumDate"

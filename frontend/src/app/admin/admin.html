@@ -1,7 +1,7 @@
 <div class="main-container">
   <div class="top-row-container bg-red-500">
     <div class="config-container bg-green-500">
-      <app-select-week></app-select-week>
+      <app-select-week (matchDayID)="updateWeekID($event)"></app-select-week>
     </div>
 
     <div class="rsvp-container bg-blue-500">
@@ -9,6 +9,7 @@
       <app-player-card
         [player]="player"
         [rsvpInput]="rsvps().includes(player.id)"
+        [weekID]="weekID()"
       ></app-player-card>
       }
     </div>

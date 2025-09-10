@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
@@ -23,11 +23,28 @@ import { DatePipe } from '@angular/common';
 export class SelectWeek {
   private _backend = inject(BackendService);
   matchDays = signal<MatchDay[]>([]);
+  selectedMatchDay = signal<number | null>(null);
+  matchDayID = output<number>();
 
   constructor() {
     this._backend.getMatchDays().subscribe((matchDays) => {
       this.matchDays.set(matchDays);
-      console.table(matchDays);
+    });
+
+    effect(() => {
+      const today = new Date().toISOString().split('T')[0];
+      const nextMatch = this.matchDays()
+        .filter((day) => day.date >= today)
+        .sort((a, b) => a.date.localeCompare(b.date))[0];
+      if (nextMatch) {
+        this.selectedMatchDay.set(nextMatch.id);
+      }
+    });
+
+    effect(() => {
+      if (this.selectedMatchDay()) {
+        this.matchDayID.emit(this.selectedMatchDay()!);
+      }
     });
   }
 }
