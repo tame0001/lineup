@@ -14,6 +14,16 @@
           (input)="filteredPlayerName.set($event.target.value)"
           placeholder="Filter players by name"
         />
+        @if (filteredPlayerName()) {
+        <button
+          matSuffix
+          matIconButton
+          aria-label="Clear"
+          (click)="filteredPlayerName.set('')"
+        >
+          <mat-icon>clear</mat-icon>
+        </button>
+        }
       </mat-form-field>
       @for (player of filteredPlayers(); track $index) {
       <app-player-card
@@ -25,5 +35,5 @@
     </div>
   </div>
 
-  <div class="lineup-container">{{ filteredPlayerName() }}</div>
+  <div class="lineup-container"></div>
 </div>

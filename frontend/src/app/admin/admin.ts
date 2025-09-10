@@ -1,5 +1,7 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { PlayerCard } from './player-card/player-card';
 import { BackendService } from '../backend-service';
@@ -8,7 +10,13 @@ import { SelectWeek } from '../select-week/select-week';
 
 @Component({
   selector: 'app-admin',
-  imports: [PlayerCard, SelectWeek, MatInputModule],
+  imports: [
+    PlayerCard,
+    SelectWeek,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './admin.html',
   styleUrl: './admin.scss',
 })
