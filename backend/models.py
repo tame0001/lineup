@@ -19,6 +19,7 @@ class UserBase(SQLModel):
     last_login: datetime | None = Field(default=None)
     # for distribute equal number of girls in each team
     gender: GenderEnum = Field(sa_column=Column(Enum(GenderEnum)))
+    paid: bool = Field(default=False)
 
 
 class User(UserBase, table=True):
