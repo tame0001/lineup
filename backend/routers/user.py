@@ -32,6 +32,7 @@ class UserUpdate(UserBase):
     facebook: str | None = None
     gender: GenderEnum | None = None
     password: str | None = None
+    is_paid: bool | None = None
 
 
 @router.get("/", response_model=list[UserRead])
