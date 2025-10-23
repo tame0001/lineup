@@ -1,6 +1,6 @@
-fastapi[standard]==0.117.*
-sqlmodel==0.0.25
-alembic==1.16.*
+fastapi[standard]==0.119.*
+sqlmodel==0.0.27
+alembic==1.17.*
 pytest==8.4.*
 requests==2.32.*
 pytest-order==1.3.*
