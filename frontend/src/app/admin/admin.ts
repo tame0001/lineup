@@ -27,6 +27,7 @@ export class Admin {
   rsvps = signal<number[]>([]);
   weekID = signal<number>(1);
   filteredPlayerName = signal<string>('');
+  n_player_in = signal<number>(0); // Number of players who have RSVP'd 'in'
 
   constructor() {
     this._backend.getPlayers().subscribe((players) => {
@@ -37,8 +38,10 @@ export class Admin {
     effect(() => {
       this._backend.getWeekRSVPs(this.weekID()).subscribe((rsvps) => {
         this.rsvps.set(rsvps.map((rsvp) => rsvp.user_id));
+        this.n_player_in.set(this.rsvps().length);
       });
     });
+
     effect(() => {
       const filter = this.filteredPlayerName().toLowerCase();
       if (!filter) {
