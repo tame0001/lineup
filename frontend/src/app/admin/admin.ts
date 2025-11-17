@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, OnInit } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,7 +20,7 @@ import { SelectWeek } from '../select-week/select-week';
   templateUrl: './admin.html',
   styleUrl: './admin.scss',
 })
-export class Admin {
+export class Admin implements OnInit {
   private _backend = inject(BackendService);
   players = signal<Player[]>([]);
   filteredPlayers = signal<Player[]>([]);

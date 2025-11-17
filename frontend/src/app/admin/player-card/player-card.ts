@@ -31,7 +31,7 @@ export class PlayerCard {
     });
 
     effect(() => {
-      let cardClass = this.rsvp() && this.rsvp()!.status ? '' : 'out';
+      const cardClass = this.rsvp() && this.rsvp()!.status ? '' : 'out';
       this.cardClass.set(cardClass);
     });
   }
