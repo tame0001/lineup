@@ -1,4 +1,5 @@
-fastapi[standard]==0.119.*
+ruff==0.14.*
+fastapi[standard]==0.121.*
 sqlmodel==0.0.27
 alembic==1.17.*
 pytest==8.4.*

@@ -1,15 +1,18 @@
 {
   "cSpell.words": [
-    "Bundesliga",
     "fastapi",
     "ghpages",
     "poolclass",
     "pytest",
     "rsvps",
-    "sqlmodel",
-    "UEFA"
+    "sqlmodel"
   ],
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
   "python.testing.pytestArgs": ["backend"],
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "python.analysis.extraPaths": ["./backend"]
 }
