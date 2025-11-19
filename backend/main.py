@@ -1,11 +1,12 @@
 from typing import Annotated
-from fastapi import FastAPI, Depends, HTTPException
+
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from .dependencies import get_current_user
 from .models import User
-from .routers import user, week, lineup, rsvp
+from .routers import lineup, rsvp, user, week
 
 fake_users_db = {
     "john": {
