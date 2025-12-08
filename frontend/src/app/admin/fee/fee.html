@@ -1,27 +1,29 @@
 <div cdkDropListGroup>
   <div class="example-container">
-    <h2>To do</h2>
+    <h2>Unpaid</h2>
     <div
       cdkDropList
-      [cdkDropListData]="todo"
+      cdkDropListSortingDisabled
+      [cdkDropListData]="unpaid()"
       class="example-list"
       (cdkDropListDropped)="drop($event)"
     >
-      @for (item of todo; track item) {
-      <div class="example-box" cdkDrag>{{ item }}</div>
+      @for (player of unpaid(); track player) {
+      <div class="example-box" cdkDrag>{{ player.name }}</div>
       }
     </div>
   </div>
   <div class="example-container">
-    <h2>Done</h2>
+    <h2>Paid</h2>
     <div
       cdkDropList
-      [cdkDropListData]="done"
+      cdkDropListSortingDisabled
+      [cdkDropListData]="paid()"
       class="example-list"
       (cdkDropListDropped)="drop($event)"
     >
-      @for (item of done; track item) {
-      <div class="example-box" cdkDrag>{{ item }}</div>
+      @for (player of paid(); track player) {
+      <div class="example-box" cdkDrag>{{ player.name }}</div>
       }
     </div>
   </div>
