@@ -33,6 +33,7 @@ class UserUpdate(UserBase):
     gender: GenderEnum | None = None
     password: str | None = None
     is_paid: bool | None = None
+    is_active: bool | None = None
 
 
 @router.get("/", response_model=list[UserRead])

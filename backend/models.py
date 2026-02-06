@@ -20,6 +20,7 @@ class UserBase(SQLModel):
     # for distribute equal number of girls in each team
     gender: GenderEnum = Field(sa_column=Column(Enum(GenderEnum)))
     is_paid: bool | None = Field(default=False)
+    is_active: bool | None = Field(default=True)
 
 
 class User(UserBase, table=True):

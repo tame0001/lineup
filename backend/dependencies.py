@@ -31,7 +31,7 @@ def get_db():
 
 
 def fake_decode_token(token):
-    return User(id=1, name=token, email="test@example.com")
+    return User(id=1, name=token, is_paid=True)
 
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
