@@ -9,8 +9,5 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class Player {
   private activatedRoute = inject(ActivatedRoute);
-
-  constructor() {
-    console.log(this.activatedRoute.snapshot.paramMap.get('id'));
-  }
+  readonly playerID = this.activatedRoute.snapshot.paramMap.get('id');
 }

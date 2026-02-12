@@ -15,7 +15,7 @@ export const routes: Routes = [
     component: Fee,
   },
   {
-    path: 'player',
+    path: 'player/:id',
     component: Player,
   },
 ];
