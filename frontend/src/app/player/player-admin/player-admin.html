@@ -1,0 +1,8 @@
+@if (player | async) {
+  <div>
+    <!-- Show player name -->
+    <h1>{{ player.name }}</h1>
+    <!-- Show active status -->
+    <p>Active: {{ player.is_active }}</p>
+  </div>
+}
