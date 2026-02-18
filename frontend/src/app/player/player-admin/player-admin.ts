@@ -4,6 +4,7 @@ import { AsyncPipe } from '@angular/common';
 
 import { BackendService } from '../../backend-service';
 import { Player } from '../../data-interface';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-player-admin',
@@ -16,13 +17,6 @@ export class PlayerAdmin {
   // Get the player ID from the route parameters
   private activatedRoute = inject(ActivatedRoute);
   readonly playerID = this.activatedRoute.snapshot.paramMap.get('id');
-  player!: Player;
-
-  constructor() {
-    // Fetch player data from the database
-
-    this._backend.getPlayer(Number(this.playerID)).subscribe((player) => {
-      this.player = player;
-    });
-  }
+  // Fetch player data from the database
+  player$: Observable<Player> = this._backend.getPlayer(Number(this.playerID));
 }

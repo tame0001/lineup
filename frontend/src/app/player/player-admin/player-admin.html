@@ -1,4 +1,4 @@
-@if (player | async) {
+@if (player$ | async; as player) {
   <div>
     <!-- Show player name -->
     <h1>{{ player.name }}</h1>
