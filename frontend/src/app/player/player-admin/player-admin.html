@@ -3,6 +3,20 @@
     <!-- Show player name -->
     <h1>{{ player.name }}</h1>
     <!-- Show active status -->
-    <p>Active: {{ player.is_active }}</p>
+    <p>Active Status</p>
+    <mat-button-toggle-group [] aria-label="Font Style">
+      <mat-button-toggle
+        value="Active"
+        [checked]="player.is_active"
+        (change)="changePlayerActiveStatus(true)"
+        >Active</mat-button-toggle
+      >
+      <mat-button-toggle
+        value="Inactive"
+        [checked]="!player.is_active"
+        (change)="changePlayerActiveStatus(false)"
+        >Inactive</mat-button-toggle
+      >
+    </mat-button-toggle-group>
   </div>
 }

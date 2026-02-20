@@ -39,4 +39,13 @@ export class BackendService {
       is_paid: isPaid,
     });
   }
+
+  changePlayerActiveStatus(
+    userId: number,
+    isActive: boolean,
+  ): Observable<Player> {
+    return this._http.patch<Player>(`${this._baseUrl}/users/${userId}`, {
+      is_active: isActive,
+    });
+  }
 }
