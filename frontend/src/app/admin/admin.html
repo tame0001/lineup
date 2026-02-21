@@ -6,35 +6,13 @@
     </div>
 
     <div class="rsvp-container bg-blue-500">
-      <mat-form-field appearance="fill" class="form-input">
-        <mat-label>Enter player name</mat-label>
-        <input
-          matInput
-          type="text"
-          [value]="filteredPlayerName()"
-          (input)="filteredPlayerName.set($event.target.value)"
-          placeholder="Filter players by name"
-        />
-        @if (filteredPlayerName()) {
-        <button
-          matSuffix
-          matIconButton
-          aria-label="Clear"
-          (click)="filteredPlayerName.set('')"
-        >
-          <mat-icon>clear</mat-icon>
-        </button>
-        }
-      </mat-form-field>
-      @for (player of filteredPlayers(); track $index) {
-      <app-player-card
-        [player]="player"
-        [rsvpInput]="rsvps().includes(player.id)"
-        [weekID]="weekID()"
-      ></app-player-card>
+      @for (player of players(); track $index) {
+        <app-player-card
+          [player]="player"
+          [rsvpInput]="rsvps().includes(player.id)"
+          [weekID]="weekID()"
+        ></app-player-card>
       }
     </div>
   </div>
-
-  <div class="lineup-container"></div>
 </div>
