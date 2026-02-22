@@ -7,12 +7,12 @@ import { Player } from '../data-interface';
 import { SelectWeek } from '../select-week/select-week';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-admin-dashboard',
   imports: [PlayerCard, SelectWeek],
-  templateUrl: './admin.html',
-  styleUrl: './admin.scss',
+  templateUrl: './admin-dashboard.html',
+  styleUrl: './admin-dashboard.scss',
 })
-export class Admin implements OnInit {
+export class AdminDashboard implements OnInit {
   private _backend = inject(BackendService);
   players = signal<Player[]>([]); // All players fetched from the backend
   rsvps = signal<number[]>([]); // List of user IDs who have RSVP'd 'in'

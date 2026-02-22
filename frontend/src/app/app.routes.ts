@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { InterestForm } from './interest-form/interest-form';
-import { Admin } from './admin/admin';
+import { AdminDashboard } from './admin/admin-dashboard';
 import { Fee } from './admin/fee/fee';
 import { PlayerAdmin } from './player/player-admin/player-admin';
 
@@ -8,7 +8,7 @@ export const routes: Routes = [
   { path: '', component: InterestForm },
   {
     path: 'admin',
-    component: Admin,
+    component: AdminDashboard,
   },
   {
     path: 'admin/fee',
