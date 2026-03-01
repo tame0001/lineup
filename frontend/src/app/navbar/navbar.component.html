@@ -15,8 +15,10 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      @if (isHandset$ | async) {
+    <!-- Show static toolbar only when in a mobile display -->
+    @if (isHandset$ | async) {
+      <mat-toolbar color="primary">
+        <!-- Hamburger icon -->
         <button
           type="button"
           aria-label="Toggle sidenav"
@@ -25,9 +27,12 @@
         >
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-      }
-      <span>Friday Football with Friends</span>
-    </mat-toolbar>
+        <!-- Title -->
+        <div class="flex-1 flex justify-center text-2xl">
+          <span>Friday Football with Friends</span>
+        </div>
+      </mat-toolbar>
+    }
     <!-- Add Content Here -->
     <router-outlet />
   </mat-sidenav-content>
