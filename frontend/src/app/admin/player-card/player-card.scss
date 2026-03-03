@@ -8,14 +8,14 @@ mat-card {
   justify-content: center;
   align-items: center;
 
+  @include mat.card-overrides(
+    (
+      elevated-container-color: var(--mat-sys-primary-container),
+    )
+  );
+
   mat-card-header {
     font-size: large;
-  }
-
-  mat-card-actions {
-    display: flex;
-    justify-content: space-evenly;
-    width: 100%;
   }
 }
 

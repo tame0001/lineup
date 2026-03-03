@@ -1,24 +1,11 @@
 @use "@angular/material" as mat;
 
-.main-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.top-row-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.config-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 .rsvp-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  display: grid; // Use CSS Grid for layout
+  // Fill each row with as many columns as possible,
+  // but ensure each column is at least 200px wide and can grow to fill available space
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(max(200px, 100% / var(--number-of-columns)), 1fr)
+  );
 }
