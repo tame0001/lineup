@@ -9,7 +9,7 @@
       (cdkDropListDropped)="drop($event)"
     >
       @for (player of unpaid(); track player) {
-      <div class="example-box" cdkDrag>{{ player.name }}</div>
+        <div class="example-box" cdkDrag>{{ player.name }}</div>
       }
     </div>
   </div>
@@ -23,7 +23,7 @@
       (cdkDropListDropped)="drop($event)"
     >
       @for (player of paid(); track player) {
-      <div class="example-box" cdkDrag>{{ player.name }}</div>
+        <div class="example-box" cdkDrag>{{ player.name }}</div>
       }
     </div>
   </div>
