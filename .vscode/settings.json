@@ -3,6 +3,7 @@
     "fastapi",
     "ghpages",
     "poolclass",
+    "pwdlib",
     "pytest",
     "rsvps",
     "sqlmodel"
