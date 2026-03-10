@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Security, status
 from sqlmodel import Session, select
 
+
 from ..dependencies import get_db
+from ..security import get_current_user
 from ..models import UserBase, User, GenderEnum
 
 router = APIRouter(prefix="/users", tags=["user"])
@@ -36,7 +38,11 @@ class UserUpdate(UserBase):
     is_active: bool | None = None
 
 
-@router.get("/", response_model=list[UserRead])
+@router.get(
+    "/",
+    response_model=list[UserRead],
+    dependencies=[Security(get_current_user)],
+)
 async def read_users(db: Session = Depends(get_db)):
     """
     Retrieve all users from the database.
@@ -54,7 +60,12 @@ def trim_facebook_url(facebook: str | None) -> str | None:
     return facebook
 
 
-@router.post("/", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/",
+    response_model=UserRead,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Security(get_current_user, scopes=["admin"])],
+)
 async def create_user(user: UserCreate, db: Session = Depends(get_db)):
     """
     Create a new user in the database.
@@ -67,7 +78,11 @@ async def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return user
 
 
-@router.get("/{user_id}", response_model=UserRead)
+@router.get(
+    "/{user_id}",
+    response_model=UserRead,
+    dependencies=[Security(get_current_user, scopes=["admin"])],
+)
 async def read_user(user_id: int, db: Session = Depends(get_db)):
     """
     Retrieve a user by ID from the database.

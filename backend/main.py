@@ -1,7 +1,7 @@
 from typing import Annotated
 from pydantic import BaseModel
 
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, FastAPI, HTTPException, status, Security
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 
@@ -37,7 +37,9 @@ async def login_for_access_token(
     """
     Endpoint to handle user login and token generation.
     """
-    user, token = authenticate_user(form_data.username, form_data.password)
+    user, token = authenticate_user(
+        form_data.username, form_data.password, scopes=form_data.scopes
+    )
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -49,7 +51,9 @@ async def login_for_access_token(
 
 
 @app.get("/me")
-async def read_current_user(current_user: Annotated[User, Depends(get_current_user)]):
+async def read_current_user(
+    current_user: Annotated[User, Security(get_current_user)],
+):
     """
     Retrieve the currently authenticated user.
     """

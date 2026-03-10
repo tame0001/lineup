@@ -3,11 +3,11 @@ from typing import Annotated
 from dotenv import dotenv_values
 from datetime import datetime, timedelta, timezone
 from pwdlib import PasswordHash
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from jwt.exceptions import InvalidTokenError
 
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 
 from .models import User
 
@@ -19,7 +19,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Initialize password hasher
 password_hash = PasswordHash.recommended()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="token",
+    scopes={"admin": "Admin access."},
+)
 
 
 fake_users_db = {
@@ -35,6 +38,7 @@ fake_users_db = {
 
 class TokenData(BaseModel):
     username: str | None = None
+    scopes: list[str] = []
 
 
 def verify_password(plain_password, hashed_password):
@@ -56,7 +60,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     return encoded_jwt
 
 
-def authenticate_user(username: str, password: str):
+def authenticate_user(username: str, password: str, scopes: list[str] = []):
     user = fake_users_db.get(username)
     if not user:
         verify_password(
@@ -67,27 +71,42 @@ def authenticate_user(username: str, password: str):
         return False, ""
     # Create token for the authenticated user
     access_token = create_access_token(
-        data={"sub": user["username"]},
+        data={"sub": user["username"], "scopes": " ".join(scopes)},
         expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
     )
     return user, access_token
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+async def get_current_user(
+    security_scopes: SecurityScopes, token: Annotated[str, Depends(oauth2_scheme)]
+):
+    if security_scopes.scopes:
+        authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
+    else:
+        authenticate_value = "Bearer"
+
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
+        headers={"WWW-Authenticate": authenticate_value},
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
-    except InvalidTokenError:
+        token_scopes = payload.get("scopes", []).split(" ")
+        token_data = TokenData(username=username, scopes=token_scopes)
+    except (InvalidTokenError, ValidationError):
         raise credentials_exception
     user = fake_users_db.get(token_data.username)
     if user is None:
         raise credentials_exception
+    for scope in security_scopes.scopes:
+        if scope not in token_data.scopes:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Not enough permissions",
+                headers={"WWW-Authenticate": authenticate_value},
+            )
     return user
