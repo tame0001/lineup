@@ -1,5 +1,7 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, HTTPException, Security, status
-from sqlmodel import Session, select
+from sqlmodel import Session, select, SQLModel
 
 
 from ..dependencies import get_db
@@ -9,7 +11,7 @@ from ..models import UserBase, User, GenderEnum
 router = APIRouter(prefix="/users", tags=["user"])
 
 
-class UserRead(UserBase):
+class UserRead(SQLModel):
     """
     UserRead model for reading user data.
     """
@@ -19,23 +21,49 @@ class UserRead(UserBase):
 
 class UserCreate(UserBase):
     """
-    UserCreate model for creating new users.
+    UserCreate model for creating new users.`
     """
 
     password: str | None = None
 
 
-class UserUpdate(UserBase):
+class UserUpdate(SQLModel):
     """
     UserUpdate model for updating existing users.
     """
 
     name: str | None = None
+    username: str | None = None
     facebook: str | None = None
     gender: GenderEnum | None = None
     password: str | None = None
     is_paid: bool | None = None
-    is_active: bool | None = None
+    active_since: datetime | None = None
+    inactive_since: datetime | None = None
+
+
+class UsernameRead(SQLModel):
+    """
+    UsernameRead model for reading username data.
+    """
+
+    username: str
+
+
+class UserUpdatePassword(SQLModel):
+    """
+    UserUpdatePassword model for updating user password.
+    """
+
+    password: str
+
+
+class UserUpdateAdmin(SQLModel):
+    """
+    UserUpdateAdmin model for updating user admin status.
+    """
+
+    is_admin: bool
 
 
 @router.get(

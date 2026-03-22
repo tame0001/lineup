@@ -15,17 +15,20 @@ class GenderEnum(str, enum.Enum):
 
 class UserBase(SQLModel):
     name: str = Field(max_length=50)
+    username: str | None = Field(max_length=50, unique=True)
     facebook: str | None = Field(max_length=100, default=None)
     last_login: datetime | None = Field(default=None)
     # for distribute equal number of girls in each team
     gender: GenderEnum = Field(sa_column=Column(Enum(GenderEnum)))
     is_paid: bool | None = Field(default=False)
-    is_active: bool | None = Field(default=True)
+    active_since: datetime | None = Field(default=None)
+    inactive_since: datetime | None = Field(default=None)
+    is_admin: bool = Field(default=False)
 
 
 class User(UserBase, table=True):
     id: int = Field(default=None, primary_key=True)
-    password: str | None = Field(default=None, max_length=25)
+    password: str | None = Field(default=None, max_length=100)
 
     appearances: list["Week"] = Relationship(
         back_populates="players", link_model=MatchDayLineUp
