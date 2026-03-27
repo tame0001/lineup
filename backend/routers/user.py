@@ -11,7 +11,7 @@ from ..models import UserBase, User, GenderEnum
 router = APIRouter(prefix="/users", tags=["user"])
 
 
-class UserRead(SQLModel):
+class UserRead(UserBase):
     """
     UserRead model for reading user data.
     """
@@ -69,7 +69,7 @@ class UserUpdateAdmin(SQLModel):
 @router.get(
     "/",
     response_model=list[UserRead],
-    dependencies=[Security(get_current_user)],
+    # dependencies=[Security(get_current_user)],
 )
 async def read_users(db: Session = Depends(get_db)):
     """

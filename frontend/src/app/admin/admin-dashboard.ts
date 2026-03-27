@@ -38,10 +38,10 @@ export class AdminDashboard implements OnInit {
     this._backend
       // Fetch players from the backend
       .getPlayers()
-      .pipe(
-        // Filter out non-active players
-        map((players) => players.filter((player) => player.is_active)),
-      )
+      // .pipe(
+      // // Filter out non-active players. Need rewrite after is_active is removed from the backend
+      //   map((players) => players.filter((player) => player.is_active)),
+      // )
       .subscribe((players) => {
         // Sort players alphabetically by name
         players = players.sort((a, b) => a.name.localeCompare(b.name));

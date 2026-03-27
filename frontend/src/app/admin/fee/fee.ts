@@ -25,8 +25,8 @@ export class Fee implements OnInit {
     // Fetch players from backend at the start of the component's lifecycle
     this._backend
       .getPlayers()
-      // Filter out inactive players
-      .pipe(map((players) => players.filter((player) => player.is_active)))
+      // // Filter out inactive players
+      // .pipe(map((players) => players.filter((player) => player.is_active)))
       .subscribe((players) => {
         // Sort players alphabetically
         players = players.sort((a, b) => a.name.localeCompare(b.name));

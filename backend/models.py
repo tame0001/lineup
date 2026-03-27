@@ -15,7 +15,7 @@ class GenderEnum(str, enum.Enum):
 
 class UserBase(SQLModel):
     name: str = Field(max_length=50)
-    username: str | None = Field(max_length=50, unique=True)
+    # username: str | None = Field(max_length=50, unique=True)
     facebook: str | None = Field(max_length=100, default=None)
     last_login: datetime | None = Field(default=None)
     # for distribute equal number of girls in each team
