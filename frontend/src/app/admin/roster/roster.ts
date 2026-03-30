@@ -13,6 +13,7 @@ import { Player } from '../../data-interface';
 export class Roster implements OnInit {
   private _backend = inject(BackendService);
   roster = signal<Player[]>([]); // All players fetched from the backend
+  selectedPlayer = signal<Player | null>(null); // Player selected for editing
 
   ngOnInit() {
     // Fetch the roster data from the backend when the component initializes
