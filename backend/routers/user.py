@@ -109,7 +109,7 @@ async def create_user(user: UserCreate, db: Session = Depends(get_db)):
 @router.get(
     "/{user_id}",
     response_model=UserRead,
-    dependencies=[Security(get_current_user, scopes=["admin"])],
+    # dependencies=[Security(get_current_user, scopes=["admin"])],
 )
 async def read_user(user_id: int, db: Session = Depends(get_db)):
     """

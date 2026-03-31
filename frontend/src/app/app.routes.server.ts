@@ -10,7 +10,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
   },
   {
-    path: 'player/:id',
+    path: 'admin/fee',
+    renderMode: RenderMode.Prerender,
+  },
+  {
+    path: 'admin/roster',
     renderMode: RenderMode.Prerender,
   },
   {

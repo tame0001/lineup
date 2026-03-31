@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { InterestForm } from './interest-form/interest-form';
 import { AdminDashboard } from './admin/admin-dashboard';
 import { Fee } from './admin/fee/fee';
-import { PlayerAdmin } from './player/player-admin/player-admin';
 import { Roster } from './admin/roster/roster';
 
 export const routes: Routes = [
@@ -14,10 +13,6 @@ export const routes: Routes = [
   {
     path: 'admin/fee',
     component: Fee,
-  },
-  {
-    path: 'player/:id',
-    component: PlayerAdmin,
   },
   {
     path: 'admin/roster',

@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, effect, inject, input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
@@ -15,15 +14,20 @@ import { Observable } from 'rxjs';
 })
 export class PlayerAdmin {
   private _backend = inject(BackendService);
-  // Get the player ID from the route parameters
-  private activatedRoute = inject(ActivatedRoute);
-  readonly playerID = this.activatedRoute.snapshot.paramMap.get('id');
-  // Fetch player data from the database
-  player$: Observable<Player> = this._backend.getPlayer(Number(this.playerID));
+  // Get the player ID from input
+  playerID = input<number>();
+  player$?: Observable<Player>;
+
+  constructor() {
+    effect(() => {
+      // Fetch player data from the database
+      this.player$ = this._backend.getPlayer(this.playerID()!);
+    });
+  }
 
   changePlayerActiveStatus(isActive: boolean) {
     this._backend
-      .changePlayerActiveStatus(Number(this.playerID), isActive)
+      .changePlayerActiveStatus(this.playerID()!, isActive)
       .subscribe((updatedPlayer) => {
         // Update the player$ observable with the new player data
         console.log('Player active status updated:', updatedPlayer);

@@ -3,10 +3,11 @@ import { MatCardModule } from '@angular/material/card';
 
 import { BackendService } from '../../backend-service';
 import { Player } from '../../data-interface';
+import { PlayerAdmin } from '../../player/player-admin/player-admin';
 
 @Component({
   selector: 'app-roster',
-  imports: [MatCardModule],
+  imports: [MatCardModule, PlayerAdmin],
   templateUrl: './roster.html',
   styleUrl: './roster.scss',
 })
