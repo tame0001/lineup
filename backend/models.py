@@ -23,6 +23,7 @@ class UserBase(SQLModel):
     is_paid: bool | None = Field(default=False)
     active_since: datetime | None = Field(default=None)
     inactive_since: datetime | None = Field(default=None)
+    is_active: bool | None = Field(default=False)
     is_admin: bool = Field(default=False)
 
 

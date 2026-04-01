@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Security, status
 from sqlmodel import Session, select, SQLModel
@@ -66,6 +66,27 @@ class UserUpdateAdmin(SQLModel):
     is_admin: bool
 
 
+def trim_facebook_url(facebook: str | None) -> str | None:
+    """
+    Helper function to trim the Facebook URL.
+    """
+    if facebook and facebook.startswith("https://www.facebook.com/"):
+        return facebook[len("https://www.facebook.com/") :]
+    return facebook
+
+
+def is_user_active(user: User) -> bool:
+    """
+    Helper function to determine if a user is active based on active_since and inactive_since.
+    """
+    now = datetime.now(timezone.utc)
+    if user.active_since and user.active_since > now:
+        return False
+    if user.inactive_since and user.inactive_since <= now:
+        return False
+    return True
+
+
 @router.get(
     "/",
     response_model=list[UserRead],
@@ -77,15 +98,6 @@ async def read_users(db: Session = Depends(get_db)):
     """
     users = db.exec(select(User)).all()
     return users
-
-
-def trim_facebook_url(facebook: str | None) -> str | None:
-    """
-    Helper function to trim the Facebook URL.
-    """
-    if facebook and facebook.startswith("https://www.facebook.com/"):
-        return facebook[len("https://www.facebook.com/") :]
-    return facebook
 
 
 @router.post(
