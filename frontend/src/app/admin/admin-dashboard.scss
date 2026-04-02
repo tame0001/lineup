@@ -3,9 +3,9 @@
 .rsvp-container {
   display: grid; // Use CSS Grid for layout
   // Fill each row with as many columns as possible,
-  // but ensure each column is at least 200px wide and can grow to fill available space
+  // but ensure each column is at least 150px wide and can grow to fill available space
   grid-template-columns: repeat(
     auto-fill,
-    minmax(max(200px, 100% / var(--number-of-columns)), 1fr)
+    minmax(max(150px, 100% / var(--number-of-columns)), 1fr)
   );
 }

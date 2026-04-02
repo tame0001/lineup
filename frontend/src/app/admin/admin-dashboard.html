@@ -1,10 +1,6 @@
-<div>
-  <div class="flex justify-center bg-green-500">
-    <app-select-week (matchDayID)="updateWeekID($event)"></app-select-week>
-    {{ n_player_in() }} players have RSVP'd 'in'
-  </div>
-
-  <div class="rsvp-container" [style.--number-of-columns]="6">
+<div class="grid grid-cols-3 h-full">
+  <!-- Player Cards. Take 2 columns -->
+  <div class="col-span-2 rsvp-container" [style.--number-of-columns]="6">
     @for (player of players(); track $index) {
       <app-player-card
         [player]="player"
@@ -12,5 +8,10 @@
         [weekID]="weekID()"
       ></app-player-card>
     }
+  </div>
+
+  <div class="flex justify-center bg-green-500">
+    <app-select-week (matchDayID)="updateWeekID($event)"></app-select-week>
+    {{ n_player_in() }} players have RSVP'd 'in'
   </div>
 </div>
