@@ -33,4 +33,13 @@ export class PlayerAdmin {
         console.log('Player active status updated:', updatedPlayer);
       });
   }
+
+  changePlayerPaidStatus(isPaid: boolean) {
+    this._backend
+      .changePlayerPaidStatus(this.playerID()!, isPaid)
+      .subscribe((updatedPlayer) => {
+        // Update the player$ observable with the new player data
+        console.log('Player paid status updated:', updatedPlayer);
+      });
+  }
 }

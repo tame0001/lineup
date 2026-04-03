@@ -44,7 +44,7 @@ export class Fee implements OnInit {
     // If the item is dropped in the paid list
     const isPaid = event.container.data === this.paid();
     // Update backend to mark player as paid or unpaid
-    this._backend.markPlayerPaidStatus(player.id, isPaid).subscribe(() => {
+    this._backend.changePlayerPaidStatus(player.id, isPaid).subscribe(() => {
       console.log(`Marked ${player.name} as ${isPaid ? 'paid' : 'unpaid'}`);
     });
     // Handle moving items within the same list or between lists

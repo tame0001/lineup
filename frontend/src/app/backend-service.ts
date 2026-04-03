@@ -34,7 +34,8 @@ export class BackendService {
   getMatchDays(): Observable<MatchDay[]> {
     return this._http.get<MatchDay[]>(`${this._baseUrl}/weeks`);
   }
-  markPlayerPaidStatus(userId: number, isPaid: boolean): Observable<Player> {
+
+  changePlayerPaidStatus(userId: number, isPaid: boolean): Observable<Player> {
     return this._http.patch<Player>(`${this._baseUrl}/users/${userId}`, {
       is_paid: isPaid,
     });
