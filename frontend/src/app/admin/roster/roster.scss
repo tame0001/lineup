@@ -1,0 +1,20 @@
+@use "@angular/material" as mat;
+
+mat-card {
+  margin: 1rem;
+  width: 8rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include mat.card-overrides(
+    (
+      elevated-container-color: var(--mat-sys-secondary-container),
+    )
+  );
+
+  mat-card-header {
+    font-size: large;
+  }
+}

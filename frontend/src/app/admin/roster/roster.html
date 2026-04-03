@@ -1,14 +1,12 @@
 <div class="h-full grid grid-cols-2">
   <!-- Player list on the left -->
-  <div class="grid grid-cols-5">
+  <div class="grid grid-cols-5 justify-items-center items-center">
     @for (player of roster(); track $index) {
-      <div class="flex justify-center items-center w-64">
-        <!-- Select a player to view details on the right side -->
-        <mat-card (click)="selectedPlayer.set(player)">
-          <mat-card-header>{{ player.name }}</mat-card-header>
-          <mat-card-content></mat-card-content>
-        </mat-card>
-      </div>
+      <!-- Select a player to view details on the right side -->
+      <mat-card (click)="selectedPlayer.set(player)">
+        <mat-card-header>{{ player.name }}</mat-card-header>
+        <mat-card-content></mat-card-content>
+      </mat-card>
     }
   </div>
   <!-- Player details on the right -->

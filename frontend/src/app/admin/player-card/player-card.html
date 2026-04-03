@@ -1,6 +1,4 @@
-<div class="h-full flex justify-center items-center">
-  <mat-card [class]="cardClass()" (click)="setRSVP(!rsvp()?.status)">
-    <mat-card-header>{{ player().name }}</mat-card-header>
-    <mat-card-content></mat-card-content>
-  </mat-card>
-</div>
+<mat-card [class]="cardClass()" (click)="setRSVP(!rsvp()?.status)">
+  <mat-card-header>{{ player().name }}</mat-card-header>
+  <mat-card-content></mat-card-content>
+</mat-card>
