@@ -49,4 +49,22 @@ export class BackendService {
       is_active: isActive,
     });
   }
+
+  changePlayerActiveSinceDate(
+    userId: number,
+    activeSinceDate: Date,
+  ): Observable<Player> {
+    return this._http.patch<Player>(`${this._baseUrl}/users/${userId}`, {
+      active_since: activeSinceDate,
+    });
+  }
+
+  changePlayerInactiveSinceDate(
+    userId: number,
+    inactiveSinceDate: Date,
+  ): Observable<Player> {
+    return this._http.patch<Player>(`${this._baseUrl}/users/${userId}`, {
+      inactive_since: inactiveSinceDate,
+    });
+  }
 }

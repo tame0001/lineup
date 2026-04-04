@@ -80,9 +80,9 @@ def is_user_active(user: User) -> bool:
     Helper function to determine if a user is active based on active_since and inactive_since.
     """
     now = datetime.now(timezone.utc)
-    if user.active_since and user.active_since > now:
+    if user.active_since and user.active_since.replace(tzinfo=timezone.utc) > now:
         return False
-    if user.inactive_since and user.inactive_since <= now:
+    if user.inactive_since and user.inactive_since.replace(tzinfo=timezone.utc) <= now:
         return False
     return True
 
@@ -159,6 +159,15 @@ async def update_user(
     if user_data.facebook:
         user_data.facebook = trim_facebook_url(user_data.facebook)
     user.sqlmodel_update(User.model_dump(user_data, exclude_unset=True))
+    # Check if active status will be changed
+    if user_data.active_since or user_data.inactive_since:
+        # Change timezone to UTC for comparison
+        if user_data.active_since:
+            user.active_since = user_data.active_since.replace(tzinfo=timezone.utc)
+        if user_data.inactive_since:
+            user.inactive_since = user_data.inactive_since.replace(tzinfo=timezone.utc)
+        user.is_active = is_user_active(user)
+    # Update the user record in the database
     db.add(user)
     db.commit()
     db.refresh(user)

@@ -4,24 +4,42 @@
     <h1>{{ player.name }}</h1>
     <!-- Show active status -->
     <p>Active Status: {{ player.is_active ? "Active" : "Inactive" }}</p>
-    <p>Active Since: {{ player.active_since }}</p>
-    <p>Inactive Since: {{ player.inactive_since }}</p>
-    <p>Is Admin: {{ player.is_admin ? "Yes" : "No" }}</p>
-
-    <!-- Admin status toggle -->
     <div>
-      <mat-button-toggle-group>
-        <mat-button-toggle value="Admin" [checked]="player.is_admin"
-          >Admin</mat-button-toggle
-        >
-        <mat-button-toggle value="User" [checked]="!player.is_admin"
-          >User</mat-button-toggle
-        >
-      </mat-button-toggle-group>
+      <p>Active Since:</p>
+      <mat-form-field>
+        <input
+          matInput
+          [matDatepicker]="activeDate"
+          (dateChange)="changeActiveSinceDate($event.value)"
+          [value]="player.active_since"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="activeDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #activeDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <p>Inactive Since:</p>
+      <mat-form-field>
+        <input
+          matInput
+          [matDatepicker]="inactiveDate"
+          (dateChange)="changeInactiveSinceDate($event.value)"
+          [value]="player.inactive_since"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="inactiveDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #inactiveDate></mat-datepicker>
+      </mat-form-field>
     </div>
 
     <!-- Paid status toggle -->
-    <div class="m-4 rounded">
+    <div class="m-4">
       <span class="mx-4">Paid Status</span>
       <mat-button-toggle-group class="mx-4">
         <mat-button-toggle
@@ -40,7 +58,7 @@
     </div>
 
     <!-- Active status toggle -->
-    <!-- <mat-button-toggle-group [] aria-label="Font Style">
+    <mat-button-toggle-group [] aria-label="Font Style">
       <mat-button-toggle
         value="Active"
         [checked]="player.is_active"
@@ -53,6 +71,6 @@
         (change)="changePlayerActiveStatus(false)"
         >Inactive</mat-button-toggle
       >
-    </mat-button-toggle-group> -->
+    </mat-button-toggle-group>
   </div>
 }
