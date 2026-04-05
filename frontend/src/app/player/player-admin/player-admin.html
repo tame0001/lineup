@@ -1,9 +1,76 @@
 @if (player$ | async; as player) {
+  <mat-card class="gap-4">
+    <mat-card-header>{{ player.name }}</mat-card-header>
+    <mat-card-content>
+      <!-- Active status -->
+      <mat-grid-list cols="3" rowHeight="4rem">
+        <mat-grid-tile>Status</mat-grid-tile>
+        <mat-grid-tile colspan="2"
+          ><!-- Active status toggle -->
+          <mat-button-toggle-group [] aria-label="Font Style">
+            <mat-button-toggle
+              value="Active"
+              [checked]="player.is_active"
+              (change)="changePlayerActiveStatus(true)"
+              >Active</mat-button-toggle
+            >
+            <mat-button-toggle
+              value="Inactive"
+              [checked]="!player.is_active"
+              (change)="changePlayerActiveStatus(false)"
+              >Inactive</mat-button-toggle
+            >
+          </mat-button-toggle-group></mat-grid-tile
+        >
+        <!-- Reservation fee -->
+        <mat-grid-tile>Fee</mat-grid-tile>
+        <mat-grid-tile colspan="2"
+          ><mat-button-toggle-group>
+            <mat-button-toggle
+              value="Paid"
+              [checked]="player.is_paid"
+              (change)="changePlayerPaidStatus(true)"
+              >Paid</mat-button-toggle
+            >
+            <mat-button-toggle
+              value="Unpaid"
+              [checked]="!player.is_paid"
+              (change)="changePlayerPaidStatus(false)"
+              >Unpaid</mat-button-toggle
+            >
+          </mat-button-toggle-group></mat-grid-tile
+        >
+      </mat-grid-list>
+
+      <!-- Advanced Options -->
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title> This is the expansion title </mat-panel-title>
+            <mat-panel-description>
+              This is a summary of the content
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>This is the primary content of the panel.</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel
+          (opened)="advancedOptionsExpandedState.set(true)"
+          (closed)="advancedOptionsExpandedState.set(false)"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title> Self aware panel </mat-panel-title>
+            <mat-panel-description>
+              Currently I am
+              {{ advancedOptionsExpandedState() ? "open" : "closed" }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+
   <div class="flex flex-col gap-4">
-    <!-- Show player name -->
-    <h1>{{ player.name }}</h1>
-    <!-- Show active status -->
-    <p>Active Status: {{ player.is_active ? "Active" : "Inactive" }}</p>
     <div>
       <p>Active Since:</p>
       <mat-form-field>
@@ -37,40 +104,5 @@
         <mat-datepicker #inactiveDate></mat-datepicker>
       </mat-form-field>
     </div>
-
-    <!-- Paid status toggle -->
-    <div class="m-4">
-      <span class="mx-4">Paid Status</span>
-      <mat-button-toggle-group class="mx-4">
-        <mat-button-toggle
-          value="Paid"
-          [checked]="player.is_paid"
-          (change)="changePlayerPaidStatus(true)"
-          >Paid</mat-button-toggle
-        >
-        <mat-button-toggle
-          value="Unpaid"
-          [checked]="!player.is_paid"
-          (change)="changePlayerPaidStatus(false)"
-          >Unpaid</mat-button-toggle
-        >
-      </mat-button-toggle-group>
-    </div>
-
-    <!-- Active status toggle -->
-    <mat-button-toggle-group [] aria-label="Font Style">
-      <mat-button-toggle
-        value="Active"
-        [checked]="player.is_active"
-        (change)="changePlayerActiveStatus(true)"
-        >Active</mat-button-toggle
-      >
-      <mat-button-toggle
-        value="Inactive"
-        [checked]="!player.is_active"
-        (change)="changePlayerActiveStatus(false)"
-        >Inactive</mat-button-toggle
-      >
-    </mat-button-toggle-group>
   </div>
 }

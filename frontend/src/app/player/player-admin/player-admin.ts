@@ -1,9 +1,12 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { BackendService } from '../../backend-service';
@@ -18,6 +21,9 @@ import { Observable } from 'rxjs';
     MatDatepickerModule,
     MatInputModule,
     MatFormFieldModule,
+    MatCardModule,
+    MatGridListModule,
+    MatExpansionModule,
   ],
   templateUrl: './player-admin.html',
   styleUrl: './player-admin.scss',
@@ -28,6 +34,7 @@ export class PlayerAdmin {
   // Get the player ID from input
   playerID = input<number>();
   player$?: Observable<Player>;
+  readonly advancedOptionsExpandedState = signal(false);
 
   constructor() {
     effect(() => {

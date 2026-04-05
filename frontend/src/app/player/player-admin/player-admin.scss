@@ -1,0 +1,18 @@
+@use "@angular/material" as mat;
+
+mat-card {
+  color: var(--mat-sys-on-surface);
+  width: 24rem;
+
+  @include mat.card-overrides(
+    (
+      elevated-container-color: var(--mat-sys-surface-container),
+    )
+  );
+
+  mat-card-header {
+    font-size: xx-large;
+    display: flex;
+    justify-content: center;
+  }
+}
