@@ -1,5 +1,6 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -11,7 +12,6 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { BackendService } from '../../backend-service';
 import { Player } from '../../data-interface';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-player-admin',
@@ -34,7 +34,6 @@ export class PlayerAdmin {
   // Get the player ID from input
   playerID = input<number>();
   player$?: Observable<Player>;
-  readonly advancedOptionsExpandedState = signal(false);
 
   constructor() {
     effect(() => {
