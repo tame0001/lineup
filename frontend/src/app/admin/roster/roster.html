@@ -1,13 +1,38 @@
 <div class="h-full grid grid-cols-2">
   <!-- Player list on the left -->
-  <div class="grid grid-cols-5 justify-items-center items-center">
-    @for (player of roster(); track $index) {
-      <!-- Select a player to view details on the right side -->
-      <mat-card (click)="selectedPlayer.set(player)">
-        <mat-card-header>{{ player.name }}</mat-card-header>
-        <mat-card-content></mat-card-content>
-      </mat-card>
-    }
+  <div class="flex flex-col gap-4">
+    <!-- Filter bar -->
+    <div class="h-24 flex items-center justify-center">
+      <mat-button-toggle-group>
+        @for (option of filterOptions; track $index) {
+          <mat-button-toggle
+            [value]="option.value"
+            (click)="selectedFilter.set(option.value)"
+            [checked]="selectedFilter() === option.value"
+          >
+            {{ option.label }}
+          </mat-button-toggle>
+        }
+      </mat-button-toggle-group>
+    </div>
+    <!-- Player grid -->
+    <div class="flex-1 grid grid-cols-5 justify-items-center items-center">
+      @for (player of roster(); track $index) {
+        <!-- Filter players based on the selected filter -->
+        @if (
+          selectedFilter() === "all" ||
+          (selectedFilter() === "active" && player.is_active) ||
+          (selectedFilter() === "inactive" && !player.is_active)
+        ) {
+          <!-- Select a player to view details on the right side -->
+          <mat-card (click)="selectedPlayer.set(player)">
+            <!-- Display player information -->
+            <mat-card-header>{{ player.name }}</mat-card-header>
+            <mat-card-content></mat-card-content>
+          </mat-card>
+        }
+      }
+    </div>
   </div>
   <!-- Player details on the right -->
   <div class="flex justify-center items-center">
