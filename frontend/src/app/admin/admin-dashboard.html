@@ -1,7 +1,7 @@
 <div class="grid grid-cols-3 h-full">
   <!-- Player Cards. Take 2 columns -->
   <div class="col-span-2 rsvp-container" [style.--number-of-columns]="6">
-    @for (player of players(); track $index) {
+    @for (player of activePlayers(); track $index) {
       <app-player-card
         [player]="player"
         [rsvpInput]="rsvps().includes(player.id)"
@@ -12,6 +12,6 @@
 
   <div class="justify-center align-center">
     <app-select-week (matchDayID)="updateWeekID($event)"></app-select-week>
-    <div>{{ n_player_in() }} players have RSVP'd 'in'</div>
+    <div>{{ nPlayerIn() }} players have RSVP'd 'in'</div>
   </div>
 </div>

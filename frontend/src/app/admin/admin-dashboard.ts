@@ -1,5 +1,4 @@
 import { Component, effect, inject, signal, OnInit } from '@angular/core';
-import { map } from 'rxjs';
 
 import { PlayerCard } from './player-card/player-card';
 import { BackendService } from '../backend-service';
@@ -15,20 +14,41 @@ import { SelectWeek } from '../select-week/select-week';
 export class AdminDashboard implements OnInit {
   private _backend = inject(BackendService);
   players = signal<Player[]>([]); // All players fetched from the backend
+  activePlayers = signal<Player[]>([]); // Only active players
   rsvps = signal<number[]>([]); // List of user IDs who have RSVP'd 'in'
   weekID = signal<number>(0); // Currently selected week ID
-  n_player_in = signal<number>(0); // Number of players who have RSVP'd 'in'
+  nPlayerIn = signal<number>(0); // Number of players who have RSVP'd 'in'
 
   constructor() {
     effect(() => {
       // Preventing fetching RSVPs for weekID 0, which is the initial state
       if (this.weekID() > 0) {
+        // Update player list. Only keep active players
+        // First, need to get match day
+        this._backend.getWeekDetails(this.weekID()).subscribe((matchDay) => {
+          const matchDate = new Date(matchDay.date);
+          // Active players are those whose active_since date is before the match day
+          // and inactive_since date is after the match day (or null)
+          this.activePlayers.set(
+            this.players().filter((player) => {
+              // Extract active_since date
+              const activeSince = this.extractDate(player.active_since);
+              // Extract inactive_since date
+              const inactiveSince = this.extractDate(player.inactive_since);
+              // Apply the filtering logic
+              return (
+                (!activeSince || activeSince <= matchDate) &&
+                (!inactiveSince || inactiveSince >= matchDate)
+              );
+            }),
+          );
+        });
         // Fetch RSVPs for the selected week and update the rsvps signal
         this._backend.getWeekRSVPs(this.weekID()).subscribe((rsvps) => {
           // Extract user IDs from the RSVPs
           this.rsvps.set(rsvps.map((rsvp) => rsvp.user_id));
           // Count how many players have RSVP'd
-          this.n_player_in.set(this.rsvps().length);
+          this.nPlayerIn.set(this.rsvps().length);
         });
       }
     });
@@ -38,10 +58,6 @@ export class AdminDashboard implements OnInit {
     this._backend
       // Fetch players from the backend
       .getPlayers()
-      // .pipe(
-      // // Filter out non-active players. Need rewrite after is_active is removed from the backend
-      //   map((players) => players.filter((player) => player.is_active)),
-      // )
       .subscribe((players) => {
         // Sort players alphabetically by name
         players = players.sort((a, b) => a.name.localeCompare(b.name));
@@ -53,5 +69,10 @@ export class AdminDashboard implements OnInit {
   updateWeekID(weekID: number) {
     // Update the weekID signal when a new week is selected
     this.weekID.set(weekID);
+  }
+
+  extractDate(dateString: string | null): Date | null {
+    // Helper function to convert date string to Date object, handling null values
+    return dateString ? new Date(dateString) : null;
   }
 }
