@@ -6,6 +6,7 @@
         [player]="player"
         [rsvpInput]="rsvps().includes(player.id)"
         [weekID]="weekID()"
+        (rsvpOutput)="RSVPChange($event)"
       ></app-player-card>
     }
   </div>

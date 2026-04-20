@@ -75,4 +75,10 @@ export class AdminDashboard implements OnInit {
     // Helper function to convert date string to Date object, handling null values
     return dateString ? new Date(dateString) : null;
   }
+
+  RSVPChange(change: number) {
+    // Update the count of players
+    // Change will be either +1 or -1
+    this.nPlayerIn.update((n) => n + change);
+  }
 }

@@ -1,4 +1,11 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -17,6 +24,7 @@ export class PlayerCard {
   rsvpInput = input<boolean>(false);
   rsvp = signal<RSVP | null>(null);
   weekID = input.required<number>();
+  rsvpOutput = output<number>();
 
   private _backend = inject(BackendService);
 
@@ -43,7 +51,9 @@ export class PlayerCard {
       status,
     });
     this._backend.postPlayerRSVP(this.rsvp()!).subscribe((rsvp) => {
-      console.log(`RSVP set for ${this.player().name}: ${rsvp.status}`);
+      // Emit an event or update number of RSVPs in the parent component
+      // If rsvp.status is true, emit +1, else emit -1
+      this.rsvpOutput.emit(rsvp.status ? 1 : -1);
     });
   }
 }
