@@ -6,13 +6,15 @@ import {
   CdkDropListGroup,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { MatCardModule } from '@angular/material/card';
+
 import { BackendService } from '../../backend-service';
 import { Player } from '../../data-interface';
 import { map } from 'rxjs';
 
 @Component({
   selector: 'app-fee',
-  imports: [CdkDrag, CdkDropList, CdkDropListGroup],
+  imports: [CdkDrag, CdkDropList, CdkDropListGroup, MatCardModule],
   templateUrl: './fee.html',
   styleUrl: './fee.scss',
 })
@@ -20,6 +22,7 @@ export class Fee implements OnInit {
   paid = signal<Player[]>([]); // Names of players who have paid
   unpaid = signal<Player[]>([]); // Names of unpaid players
   private _backend = inject(BackendService);
+  isUnpaidMoreThanPaid = signal(false);
 
   ngOnInit(): void {
     // Fetch players from backend at the start of the component's lifecycle

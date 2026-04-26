@@ -1,29 +1,44 @@
-<div cdkDropListGroup>
-  <div class="example-container">
+<!-- Use grid to split screen into 5 columns -->
+<!-- Unpaid and paid will take space proportional to numbers of players -->
+<div cdkDropListGroup class="grid grid-cols-5 h-full gap-x-4">
+  <!-- If unpaid players is more than paid players, unpaid container takes 3 columns -->
+  <div
+    class="flex flex-col"
+    [style.grid-column]="isUnpaidMoreThanPaid() ? 'span 3' : 'span 2'"
+  >
     <h2>Unpaid</h2>
     <div
       cdkDropList
       cdkDropListSortingDisabled
       [cdkDropListData]="unpaid()"
-      class="example-list"
       (cdkDropListDropped)="drop($event)"
+      class="container"
     >
       @for (player of unpaid(); track player) {
-        <div class="example-box" cdkDrag>{{ player.name }}</div>
+        <!-- <div class="box" cdkDrag>{{ player.name }}</div> -->
+        <mat-card cdkDrag>
+          <mat-card-content>{{ player.name }}</mat-card-content>
+        </mat-card>
       }
     </div>
   </div>
-  <div class="example-container">
+  <!-- If unpaid players is more than paid players, paid container takes 2 columns -->
+  <div
+    class="flex flex-col"
+    [style.grid-column]="isUnpaidMoreThanPaid() ? 'span 2' : 'span 3'"
+  >
     <h2>Paid</h2>
     <div
       cdkDropList
       cdkDropListSortingDisabled
       [cdkDropListData]="paid()"
-      class="example-list"
       (cdkDropListDropped)="drop($event)"
+      class="container"
     >
       @for (player of paid(); track player) {
-        <div class="example-box" cdkDrag>{{ player.name }}</div>
+        <mat-card cdkDrag>
+          <mat-card-content>{{ player.name }}</mat-card-content>
+        </mat-card>
       }
     </div>
   </div>
