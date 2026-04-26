@@ -25,6 +25,17 @@ mat-card {
   display: flex;
   flex-wrap: wrap;
   column-gap: 2rem;
+  position: relative;
+}
+
+.background-text {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8rem;
+  color: rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
 }
 
 .cdk-drag-preview {

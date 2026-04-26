@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -22,7 +22,11 @@ export class Fee implements OnInit {
   paid = signal<Player[]>([]); // Names of players who have paid
   unpaid = signal<Player[]>([]); // Names of unpaid players
   private _backend = inject(BackendService);
-  isUnpaidMoreThanPaid = signal(false);
+  // Computed property to determine if unpaid players are more than paid players
+  // This is used to dynamically adjust the grid layout in the template
+  isUnpaidMoreThanPaid = computed(
+    () => this.unpaid().length > this.paid().length,
+  );
 
   ngOnInit(): void {
     // Fetch players from backend at the start of the component's lifecycle

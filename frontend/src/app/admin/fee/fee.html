@@ -6,7 +6,6 @@
     class="flex flex-col"
     [style.grid-column]="isUnpaidMoreThanPaid() ? 'span 3' : 'span 2'"
   >
-    <h2>Unpaid</h2>
     <div
       cdkDropList
       cdkDropListSortingDisabled
@@ -14,8 +13,8 @@
       (cdkDropListDropped)="drop($event)"
       class="container"
     >
+      <h2 class="background-text">Unpaid</h2>
       @for (player of unpaid(); track player) {
-        <!-- <div class="box" cdkDrag>{{ player.name }}</div> -->
         <mat-card cdkDrag>
           <mat-card-content>{{ player.name }}</mat-card-content>
         </mat-card>
@@ -27,7 +26,6 @@
     class="flex flex-col"
     [style.grid-column]="isUnpaidMoreThanPaid() ? 'span 2' : 'span 3'"
   >
-    <h2>Paid</h2>
     <div
       cdkDropList
       cdkDropListSortingDisabled
@@ -35,6 +33,7 @@
       (cdkDropListDropped)="drop($event)"
       class="container"
     >
+      <h2 class="background-text">Paid</h2>
       @for (player of paid(); track player) {
         <mat-card cdkDrag>
           <mat-card-content>{{ player.name }}</mat-card-content>
