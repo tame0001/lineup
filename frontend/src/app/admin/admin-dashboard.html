@@ -1,6 +1,10 @@
 <div class="grid grid-cols-3 h-full">
   <!-- Player Cards. Take 2 columns -->
-  <div class="col-span-2 rsvp-container" [style.--number-of-columns]="6">
+  <div
+    class="col-span-2 rsvp-container"
+    [style.--number-of-columns]="6"
+    style="border-right: 1px dashed"
+  >
     @for (player of activePlayers(); track $index) {
       <app-player-card
         [player]="player"
@@ -12,7 +16,24 @@
   </div>
 
   <div class="justify-center align-center">
-    <app-select-week (matchDayID)="updateWeekID($event)"></app-select-week>
-    <div>{{ nPlayerIn() }} players have RSVP'd 'in'</div>
+    <div class="grid grid-rows-4 h-full">
+      <!-- Match week panel -->
+      <div
+        class="row-span-1 flex justify-center items-center gap-4"
+        style="border-bottom: 1px dashed"
+      >
+        <app-select-week (matchDayID)="updateWeekID($event)"></app-select-week>
+        <button
+          matFab
+          matTooltip="Add new match day"
+          (click)="openAddWeekSheet()"
+        >
+          <mat-icon>more_time</mat-icon>
+        </button>
+        <div>{{ nPlayerIn() }} players have RSVP'd 'in'</div>
+      </div>
+      <!-- Line up panel -->
+      <div class="row-span-3"></div>
+    </div>
   </div>
 </div>

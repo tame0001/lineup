@@ -1,18 +1,34 @@
 import { Component, effect, inject, signal, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {
+  MatBottomSheetModule,
+  MatBottomSheet,
+} from '@angular/material/bottom-sheet';
 
 import { PlayerCard } from './player-card/player-card';
 import { BackendService } from '../backend-service';
 import { Player } from '../data-interface';
-import { SelectWeek } from '../select-week/select-week';
+import { SelectWeek } from '../week/select-week/select-week';
+import { AddWeek } from '../week/add-week/add-week';
 
 @Component({
   selector: 'app-admin-dashboard',
-  imports: [PlayerCard, SelectWeek],
+  imports: [
+    PlayerCard,
+    SelectWeek,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatBottomSheetModule,
+  ],
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.scss',
 })
 export class AdminDashboard implements OnInit {
   private _backend = inject(BackendService);
+  private _addWeekSheet = inject(MatBottomSheet);
   players = signal<Player[]>([]); // All players fetched from the backend
   activePlayers = signal<Player[]>([]); // Only active players
   rsvps = signal<number[]>([]); // List of user IDs who have RSVP'd 'in'
@@ -80,5 +96,10 @@ export class AdminDashboard implements OnInit {
     // Update the count of players
     // Change will be either +1 or -1
     this.nPlayerIn.update((n) => n + change);
+  }
+
+  openAddWeekSheet() {
+    // Open the bottom sheet for adding a new week
+    this._addWeekSheet.open(AddWeek);
   }
 }

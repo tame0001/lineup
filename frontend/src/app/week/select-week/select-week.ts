@@ -4,8 +4,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 
-import { MatchDay } from '../data-interface';
-import { BackendService } from '../backend-service';
+import { MatchDay } from '../../data-interface';
+import { BackendService } from '../../backend-service';
 import { DatePipe } from '@angular/common';
 
 @Component({
