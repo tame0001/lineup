@@ -10,8 +10,10 @@
     <img src="logo-320px.png" alt="" />
     <mat-nav-list>
       <a mat-list-item href="/admin">Admin Dashboard</a>
-      <a mat-list-item href="/admin/fee">Fee</a>
       <a mat-list-item href="/admin/roster">Roster</a>
+      @if (!(isHandset$ | async)) {
+        <a mat-list-item href="/admin/fee">Fee</a>
+      }
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
