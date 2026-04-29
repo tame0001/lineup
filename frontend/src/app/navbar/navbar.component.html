@@ -3,22 +3,22 @@
     #drawer
     class="sidenav"
     fixedInViewport
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false"
+    [attr.role]="isHandsetSignal() ? 'dialog' : 'navigation'"
+    [mode]="isHandsetSignal() ? 'over' : 'side'"
+    [opened]="isHandsetSignal() === false"
   >
     <img src="logo-320px.png" alt="" />
     <mat-nav-list>
       <a mat-list-item href="/admin">Admin Dashboard</a>
       <a mat-list-item href="/admin/roster">Roster</a>
-      @if (!(isHandset$ | async)) {
+      @if (!isHandsetSignal()) {
         <a mat-list-item href="/admin/fee">Fee</a>
       }
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <!-- Show static toolbar only when in a mobile display -->
-    @if (isHandset$ | async) {
+    @if (isHandsetSignal()) {
       <mat-toolbar color="primary">
         <!-- Hamburger icon -->
         <button
