@@ -7,6 +7,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { BackendService } from '../../backend-service';
 import { Player } from '../../data-interface';
 import { PlayerAdmin } from '../../player/player-admin/player-admin';
+import { CommonService } from '../../common-service';
 
 @Component({
   selector: 'app-roster',
@@ -21,6 +22,7 @@ import { PlayerAdmin } from '../../player/player-admin/player-admin';
   styleUrl: './roster.scss',
 })
 export class Roster implements OnInit {
+  isHandsetSignal = inject(CommonService).isHandsetSignal;
   private _backend = inject(BackendService);
   roster = signal<Player[]>([]); // All players fetched from the backend
   selectedPlayer = signal<Player | null>(null); // Player selected for editing

@@ -18,3 +18,14 @@ mat-card {
     font-size: large;
   }
 }
+
+.dashboard-layout {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.portrait-layout {
+  display: grid;
+  grid-template-rows: 300px 1fr;
+}

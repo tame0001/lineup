@@ -1,5 +1,17 @@
-<div class="h-full grid grid-cols-2">
-  <!-- Player list on the left -->
+<div
+  [class.portrait-layout]="isHandsetSignal()"
+  [class.dashboard-layout]="!isHandsetSignal()"
+>
+  <!-- Player details on the left -->
+  <div class="flex justify-center items-center">
+    @if (selectedPlayer()) {
+      <app-player-admin [playerID]="selectedPlayer()?.id"></app-player-admin>
+    } @else {
+      <span class="text-2xl">Select a player</span>
+    }
+  </div>
+
+  <!-- Player list on the right -->
   <div class="flex flex-col gap-4">
     <!-- Filter bar -->
     <div class="h-24 flex items-center justify-center">
@@ -33,13 +45,5 @@
         }
       }
     </div>
-  </div>
-  <!-- Player details on the right -->
-  <div class="flex justify-center items-center">
-    @if (selectedPlayer()) {
-      <app-player-admin [playerID]="selectedPlayer()?.id"></app-player-admin>
-    } @else {
-      <span class="text-2xl">Select a player</span>
-    }
   </div>
 </div>

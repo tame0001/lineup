@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -18,7 +17,6 @@ import { CommonService } from '../common-service';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    AsyncPipe,
     RouterOutlet,
   ],
 })
