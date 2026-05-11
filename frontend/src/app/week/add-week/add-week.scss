@@ -1,0 +1,14 @@
+@use "@angular/material" as mat;
+
+mat-calendar {
+  margin: 1rem auto;
+  background-color: var(--mat-sys-surface-container);
+}
+
+button {
+  @include mat.button-overrides(
+    (
+      tonal-container-color: var(--mat-sys-primary-container),
+    )
+  );
+}

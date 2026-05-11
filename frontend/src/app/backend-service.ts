@@ -23,6 +23,10 @@ export class BackendService {
     return this._http.get<RSVP[]>(`${this._baseUrl}/rsvp/${weekId}`);
   }
 
+  createWeek(date: Date): Observable<MatchDay> {
+    return this._http.post<MatchDay>(`${this._baseUrl}/weeks`, { date: date });
+  }
+
   getPlayerRSVP(userId: number, weekId: number): Observable<RSVP> {
     return this._http.get<RSVP>(`${this._baseUrl}/rsvp/${weekId}/${userId}`);
   }

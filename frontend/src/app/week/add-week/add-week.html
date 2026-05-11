@@ -1,1 +1,14 @@
-<p>add-week works!</p>
+<div class="flex flex-col gap-4 p-4">
+  <div>
+    <mat-calendar [(selected)]="selectedDate"></mat-calendar>
+  </div>
+  <div class="flex justify-center">
+    <button matButton="tonal" (click)="addWeek()">
+      @if (selectedDate() !== null) {
+        Confirm adding {{ selectedDate() | date: "mediumDate" }}
+      } @else {
+        Close
+      }
+    </button>
+  </div>
+</div>
