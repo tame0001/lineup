@@ -51,41 +51,38 @@ export class PlayerAdmin {
       });
   }
 
-  changeActiveSinceDate(date: Date | null) {
-    console.log('Changing active since date to:', date);
-    // Check if date is not null before making the API call
-    if (date) {
-      this._backend
-        .changePlayerActiveSinceDate(this.playerID()!, date)
-        .subscribe((updatedPlayer) => {
-          // Update the player$ observable with the new player data
-          console.log('Player active since date updated:', updatedPlayer);
-        });
-    }
-  }
+  changePlayerActiveStatus(isActive: boolean, date?: Date | null) {
+    // This function handles status changes. The use cases are:
+    // 1. Changing isActive status: this function use today date to set active_since or inactive_since depending on the new status.
+    // 2. Changing active_since or inactive_since date: function will take the new date and set it to active_since or inactive_since.
 
-  changeInactiveSinceDate(date: Date | null) {
-    console.log('Changing inactive since date to:', date);
-    // Check if date is not null before making the API call
-    if (date) {
-      this._backend
-        .changePlayerInactiveSinceDate(this.playerID()!, date)
-        .subscribe((updatedPlayer) => {
-          // Update the player$ observable with the new player data
-          console.log('Player inactive since date updated:', updatedPlayer);
+    const currentDate = date || new Date(); // If date is not provided, use today date.
+    const request = isActive
+      ? // If changing to active, set active_since to current date
+        this._backend.changePlayerActiveStatus(this.playerID()!, {
+          // Only need to set activeSinceDate, the backend will handle setting isActive to true
+          activeSinceDate: currentDate,
+        })
+      : // If changing to inactive, set inactive_since to current date
+        this._backend.changePlayerActiveStatus(this.playerID()!, {
+          // Only need to set inactiveSinceDate, the backend will handle setting isActive to false
+          inactiveSinceDate: currentDate,
         });
-    }
-  }
-
-  changePlayerActiveStatus(isActive: boolean) {
-    const currentDate = new Date();
-    // If changing to active, set active_since to current date
-    if (isActive) {
-      this.changeActiveSinceDate(currentDate);
-    }
-    // If changing to inactive, set inactive_since to current date
-    else {
-      this.changeInactiveSinceDate(currentDate);
-    }
+    // Subscribe to the request
+    request.subscribe((updatedPlayerInfo) => {
+      // Verify that the player's active status has been updated correctly
+      if (isActive && updatedPlayerInfo.is_active) {
+        // Status is correct
+        console.log(
+          'Player active status updated correctly:',
+          updatedPlayerInfo,
+        );
+      } else {
+        // Status is incorrect
+        console.log(
+          `Player active status updated is incomplete: expected is_active to be ${isActive}, but got ${updatedPlayerInfo.is_active}`,
+        );
+      }
+    });
   }
 }

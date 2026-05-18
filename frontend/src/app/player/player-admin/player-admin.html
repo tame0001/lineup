@@ -56,7 +56,7 @@
                 <input
                   matInput
                   [matDatepicker]="activeDate"
-                  (dateChange)="changeActiveSinceDate($event.value)"
+                  (dateChange)="changePlayerActiveStatus(true, $event.value)"
                   [value]="player.active_since"
                 />
                 <mat-datepicker-toggle
@@ -73,7 +73,7 @@
                 <input
                   matInput
                   [matDatepicker]="inactiveDate"
-                  (dateChange)="changeInactiveSinceDate($event.value)"
+                  (dateChange)="changePlayerActiveStatus(false, $event.value)"
                   [value]="player.inactive_since"
                 />
                 <mat-datepicker-toggle
