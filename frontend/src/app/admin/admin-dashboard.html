@@ -2,7 +2,7 @@
   <!-- Player Cards. Take 2 columns -->
   <div
     class="col-span-2 rsvp-container"
-    [style.--number-of-columns]="6"
+    [style.--number-of-columns]="activePlayers().length ? '6' : '1'"
     style="border-right: 1px dashed"
   >
     @for (player of activePlayers(); track $index) {
@@ -12,6 +12,11 @@
         [weekID]="weekID()"
         (rsvpOutput)="RSVPChange($event)"
       ></app-player-card>
+    } @empty {
+      <!-- No active players to display -->
+      <div class="flex justify-center items-center h-full">
+        <span class="text-2xl">Please select match day</span>
+      </div>
     }
   </div>
 
