@@ -23,7 +23,7 @@ import { BackendService } from '../../backend-service';
 export class SelectWeek {
   private _backend = inject(BackendService);
   matchDays = signal<MatchDay[]>([]);
-  selectedMatchDayID = signal<number | null>(null);
+  selectedMatchDay = signal<MatchDay | null>(null);
   matchDayID = output<number>();
   // An array of match day's date in timestamp format
   matchDayDates = signal<number[] | null>(null);
@@ -45,35 +45,39 @@ export class SelectWeek {
     });
 
     effect(() => {
-      const today = new Date();
+      const today = new Date().setHours(0, 0, 0, 0);
       // Automatically select the next upcoming match day by default
-      const nextMatch = this.matchDays()
-        .filter((day) => day.date >= today)
-        .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+      const nextMatch = this.matchDayDates()
+        ?.filter((matchDay) => matchDay >= today)
+        .sort((a, b) => a - b)[0];
       if (nextMatch) {
-        this.selectedMatchDayID.set(nextMatch.id);
+        const nextMatchDay = this.findMatchDayByDate(new Date(nextMatch));
+        this.selectedMatchDay.set(nextMatchDay);
       }
     });
 
     effect(() => {
       // Emit the selected match day ID whenever it changes
-      if (this.selectedMatchDayID()) {
-        this.matchDayID.emit(this.selectedMatchDayID()!);
+      if (this.selectedMatchDay()) {
+        this.matchDayID.emit(this.selectedMatchDay()!.id);
       }
     });
   }
 
-  onMatchDaySelected(matchDay: Date | null) {
-    console.log('Selected Match Day ID:', matchDay);
+  findMatchDayByDate(date: Date): MatchDay | null {
     // Find the match day ID based on the selected date
-    const selectedDay = this.matchDays().find(
+    const matchDay = this.matchDays().find(
       (day) =>
-        new Date(day.date).setHours(0, 0, 0, 0) ===
-        matchDay?.setHours(0, 0, 0, 0),
+        new Date(day.date).setHours(0, 0, 0, 0) === date.setHours(0, 0, 0, 0),
     );
-    // Update the selected match day ID signal and it will activate the effect
-    if (selectedDay) {
-      this.selectedMatchDayID.set(selectedDay.id);
+    return matchDay ? matchDay : null;
+  }
+
+  onMatchDaySelected(matchDay: Date | null) {
+    const selectedMatchDay = this.findMatchDayByDate(matchDay!);
+    // Update the selected match day signal and it will activate the effect
+    if (selectedMatchDay) {
+      this.selectedMatchDay.set(selectedMatchDay);
     }
   }
 }
