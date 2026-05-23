@@ -32,10 +32,11 @@ export class SelectWeek {
     });
 
     effect(() => {
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date();
+      // Automatically select the next upcoming match day by default
       const nextMatch = this.matchDays()
         .filter((day) => day.date >= today)
-        .sort((a, b) => a.date.localeCompare(b.date))[0];
+        .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
       if (nextMatch) {
         this.selectedMatchDay.set(nextMatch.id);
       }

@@ -51,22 +51,8 @@ export class BackendService {
 
   changePlayerActiveStatus(
     userId: number,
-    details: {
-      activeSinceDate?: Date;
-      inactiveSinceDate?: Date;
-    },
+    payload?: Partial<Pick<Player, 'active_since' | 'inactive_since'>>,
   ): Observable<Player> {
-    // Map the details to the expected format for the backend
-    const payload = {
-      active_since: details.activeSinceDate,
-      inactive_since: details.inactiveSinceDate,
-    };
-    // Check if payload has at least one of the properties set to a non-undefined value before making the request
-    if (Object.values(payload).every((value) => value === undefined)) {
-      throw new Error(
-        'At least one of activeSinceDate or inactiveSinceDate must be provided',
-      );
-    }
     return this._http.patch<Player>(
       `${this._baseUrl}/users/${userId}`,
       payload,

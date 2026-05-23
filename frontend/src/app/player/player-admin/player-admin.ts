@@ -60,13 +60,13 @@ export class PlayerAdmin {
     const request = isActive
       ? // If changing to active, set active_since to current date
         this._backend.changePlayerActiveStatus(this.playerID()!, {
-          // Only need to set activeSinceDate, the backend will handle setting isActive to true
-          activeSinceDate: currentDate,
+          // Only need to set active_since, the backend will handle setting isActive to true
+          active_since: currentDate,
         })
       : // If changing to inactive, set inactive_since to current date
         this._backend.changePlayerActiveStatus(this.playerID()!, {
-          // Only need to set inactiveSinceDate, the backend will handle setting isActive to false
-          inactiveSinceDate: currentDate,
+          // Only need to set inactive_since, the backend will handle setting isActive to false
+          inactive_since: currentDate,
         });
     // Subscribe to the request
     request.subscribe((updatedPlayerInfo) => {

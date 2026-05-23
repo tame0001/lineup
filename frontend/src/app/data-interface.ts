@@ -3,8 +3,8 @@ export interface Player {
   id: number;
   is_paid: boolean;
   is_active: boolean;
-  active_since: string | null;
-  inactive_since: string | null;
+  active_since: Date | null;
+  inactive_since: Date | null;
   is_admin: boolean;
 }
 
@@ -16,5 +16,5 @@ export interface RSVP {
 
 export interface MatchDay {
   id: number;
-  date: string;
+  date: Date;
 }

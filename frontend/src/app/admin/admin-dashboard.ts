@@ -42,19 +42,16 @@ export class AdminDashboard implements OnInit {
         // Update player list. Only keep active players
         // First, need to get match day
         this._backend.getWeekDetails(this.weekID()).subscribe((matchDay) => {
-          const matchDate = new Date(matchDay.date);
           // Active players are those whose active_since date is before the match day
           // and inactive_since date is after the match day (or null)
           this.activePlayers.set(
             this.players().filter((player) => {
-              // Extract active_since date
-              const activeSince = this.extractDate(player.active_since);
-              // Extract inactive_since date
-              const inactiveSince = this.extractDate(player.inactive_since);
               // Apply the filtering logic
+              const activeSince = player.active_since;
+              const inactiveSince = player.inactive_since;
               return (
-                (!activeSince || activeSince <= matchDate) &&
-                (!inactiveSince || inactiveSince >= matchDate)
+                (!activeSince || activeSince <= matchDay.date) &&
+                (!inactiveSince || inactiveSince >= matchDay.date)
               );
             }),
           );
@@ -85,11 +82,6 @@ export class AdminDashboard implements OnInit {
   updateWeekID(weekID: number) {
     // Update the weekID signal when a new week is selected
     this.weekID.set(weekID);
-  }
-
-  extractDate(dateString: string | null): Date | null {
-    // Helper function to convert date string to Date object, handling null values
-    return dateString ? new Date(dateString) : null;
   }
 
   RSVPChange(change: number) {
