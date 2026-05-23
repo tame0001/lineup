@@ -27,7 +27,7 @@
         class="row-span-1 flex justify-center items-center gap-4"
         style="border-bottom: 1px dashed"
       >
-        <app-select-week (matchDayID)="updateWeekID($event)"></app-select-week>
+        <app-select-week (matchDayID)="weekID.set($event)"></app-select-week>
         <button
           matFab
           matTooltip="Add new match day"

@@ -42,7 +42,6 @@ export class SelectWeek {
       this.matchDayDates.set(
         matchDays.map((day) => new Date(day.date).setHours(0, 0, 0, 0)),
       );
-      console.log('Fetched match days:', this.matchDayDates());
     });
 
     effect(() => {
@@ -64,7 +63,17 @@ export class SelectWeek {
     });
   }
 
-  onMatchDaySelected(matchDay: Date) {
+  onMatchDaySelected(matchDay: Date | null) {
     console.log('Selected Match Day ID:', matchDay);
+    // Find the match day ID based on the selected date
+    const selectedDay = this.matchDays().find(
+      (day) =>
+        new Date(day.date).setHours(0, 0, 0, 0) ===
+        matchDay?.setHours(0, 0, 0, 0),
+    );
+    // Update the selected match day ID signal and it will activate the effect
+    if (selectedDay) {
+      this.selectedMatchDayID.set(selectedDay.id);
+    }
   }
 }

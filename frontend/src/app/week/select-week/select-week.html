@@ -4,6 +4,7 @@
     matInput
     [matDatepicker]="matchDayPicker"
     [matDatepickerFilter]="matchDayFilter"
+    (dateChange)="onMatchDaySelected($event.value)"
   />
   <mat-datepicker-toggle
     matIconSuffix

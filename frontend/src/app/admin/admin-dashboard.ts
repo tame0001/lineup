@@ -79,11 +79,6 @@ export class AdminDashboard implements OnInit {
       });
   }
 
-  updateWeekID(weekID: number) {
-    // Update the weekID signal when a new week is selected
-    this.weekID.set(weekID);
-  }
-
   RSVPChange(change: number) {
     // Update the count of players
     // Change will be either +1 or -1
