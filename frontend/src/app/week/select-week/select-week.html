@@ -1,13 +1,13 @@
 <mat-form-field>
   <mat-label>Match Day</mat-label>
-  <mat-select
-    (selectionChange)="selectedMatchDay.set($event.value)"
-    [value]="selectedMatchDay()"
-  >
-    @for (matchDay of matchDays(); track matchDay.id) {
-    <mat-option [value]="matchDay.id">{{
-      matchDay.date | date : "mediumDate"
-    }}</mat-option>
-    }
-  </mat-select>
+  <input
+    matInput
+    [matDatepicker]="matchDayPicker"
+    [matDatepickerFilter]="matchDayFilter"
+  />
+  <mat-datepicker-toggle
+    matIconSuffix
+    [for]="matchDayPicker"
+  ></mat-datepicker-toggle>
+  <mat-datepicker #matchDayPicker></mat-datepicker>
 </mat-form-field>

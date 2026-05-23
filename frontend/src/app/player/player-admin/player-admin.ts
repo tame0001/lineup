@@ -8,7 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { BackendService } from '../../backend-service';
 import { Player } from '../../data-interface';
@@ -27,7 +26,6 @@ import { Player } from '../../data-interface';
   ],
   templateUrl: './player-admin.html',
   styleUrl: './player-admin.scss',
-  providers: [provideNativeDateAdapter()],
 })
 export class PlayerAdmin {
   private _backend = inject(BackendService);
