@@ -40,29 +40,9 @@ export class AdminDashboard implements OnInit {
       // Preventing fetching RSVPs for weekID 0, which is the initial state
       if (this.weekID() > 0) {
         // Update player list. Only keep active players
-        // First, need to get match day
-        this._backend.getWeekDetails(this.weekID()).subscribe((matchDay) => {
-          // Active players are those whose active_since date is before the match day
-          // and inactive_since date is after the match day (or null)
-          this.activePlayers.set(
-            this.players().filter((player) => {
-              // Apply the filtering logic
-              const activeSince = player.active_since;
-              const inactiveSince = player.inactive_since;
-              return (
-                (!activeSince || activeSince <= matchDay.date) &&
-                (!inactiveSince || inactiveSince >= matchDay.date)
-              );
-            }),
-          );
-        });
+        this.updateActivePlayerList(this.weekID());
         // Fetch RSVPs for the selected week and update the rsvps signal
-        this._backend.getWeekRSVPs(this.weekID()).subscribe((rsvps) => {
-          // Extract user IDs from the RSVPs
-          this.rsvps.set(rsvps.map((rsvp) => rsvp.user_id));
-          // Count how many players have RSVP'd
-          this.nPlayerIn.set(this.rsvps().length);
-        });
+        this.fetchWeekRSVPs(this.weekID());
       }
     });
   }
@@ -80,9 +60,38 @@ export class AdminDashboard implements OnInit {
   }
 
   RSVPChange(change: number) {
-    // Update the count of players
+    // Update the count of players from player-card component output signal
     // Change will be either +1 or -1
     this.nPlayerIn.update((n) => n + change);
+  }
+
+  private updateActivePlayerList(weekID: number) {
+    // First, need to get match day
+    this._backend.getWeekDetails(weekID).subscribe((matchDay) => {
+      // Active players are those whose active_since date is before the match day
+      // and inactive_since date is after the match day (or null)
+      this.activePlayers.set(
+        this.players().filter((player) => {
+          // Apply the filtering logic
+          const activeSince = player.active_since;
+          const inactiveSince = player.inactive_since;
+          return (
+            (!activeSince || activeSince <= matchDay.date) &&
+            (!inactiveSince || inactiveSince >= matchDay.date)
+          );
+        }),
+      );
+    });
+  }
+
+  private fetchWeekRSVPs(weekID: number) {
+    // Fetch RSVPs for the selected week and update the rsvps signal
+    this._backend.getWeekRSVPs(weekID).subscribe((rsvps) => {
+      // Extract user IDs from the RSVPs
+      this.rsvps.set(rsvps.map((rsvp) => rsvp.user_id));
+      // Count how many players have RSVP'd
+      this.nPlayerIn.set(this.rsvps().length);
+    });
   }
 
   openAddWeekSheet() {

@@ -5,7 +5,7 @@
   <!-- Player details on the left -->
   <div class="flex justify-center items-center">
     @if (selectedPlayer()) {
-      <app-player-admin [playerID]="selectedPlayer()?.id"></app-player-admin>
+      <app-player-admin [playerID]="selectedPlayer()!.id"></app-player-admin>
     } @else {
       <span class="text-2xl">Select a player</span>
     }

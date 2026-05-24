@@ -1,4 +1,11 @@
-import { Component, effect, inject, signal, output } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  signal,
+  output,
+  OnInit,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
@@ -20,7 +27,7 @@ import { BackendService } from '../../backend-service';
   templateUrl: './select-week.html',
   styleUrl: './select-week.scss',
 })
-export class SelectWeek {
+export class SelectWeek implements OnInit {
   private _backend = inject(BackendService);
   matchDays = signal<MatchDay[]>([]);
   selectedMatchDay = signal<MatchDay | null>(null);
@@ -35,15 +42,6 @@ export class SelectWeek {
   };
 
   constructor() {
-    // Fetch match days from the backend and populate the matchDays signal
-    this._backend.getMatchDays().subscribe((matchDays) => {
-      this.matchDays.set(matchDays);
-      // Extract just the dates for the datepicker filter
-      this.matchDayDates.set(
-        matchDays.map((day) => new Date(day.date).setHours(0, 0, 0, 0)),
-      );
-    });
-
     effect(() => {
       const today = new Date().setHours(0, 0, 0, 0);
       // Automatically select the next upcoming match day by default
@@ -61,6 +59,17 @@ export class SelectWeek {
       if (this.selectedMatchDay()) {
         this.matchDayID.emit(this.selectedMatchDay()!.id);
       }
+    });
+  }
+
+  ngOnInit() {
+    // Fetch match days from the backend and populate the matchDays signal
+    this._backend.getMatchDays().subscribe((matchDays) => {
+      this.matchDays.set(matchDays);
+      // Extract just the dates for the datepicker filter
+      this.matchDayDates.set(
+        matchDays.map((day) => new Date(day.date).setHours(0, 0, 0, 0)),
+      );
     });
   }
 

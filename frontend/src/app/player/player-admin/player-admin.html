@@ -1,4 +1,5 @@
-@if (player$ | async; as player) {
+@if (playerResource.hasValue()) {
+  @let player = playerResource.value();
   <mat-card class="gap-4">
     <mat-card-header>{{ player.name }}</mat-card-header>
     <mat-card-content>

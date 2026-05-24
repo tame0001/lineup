@@ -1,6 +1,4 @@
-import { Component, effect, inject, input } from '@angular/core';
-import { AsyncPipe } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Component, inject, input } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -10,12 +8,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { BackendService } from '../../backend-service';
-import { Player } from '../../data-interface';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-player-admin',
   imports: [
-    AsyncPipe,
     MatButtonToggleModule,
     MatDatepickerModule,
     MatInputModule,
@@ -30,15 +27,11 @@ import { Player } from '../../data-interface';
 export class PlayerAdmin {
   private _backend = inject(BackendService);
   // Get the player ID from input
-  playerID = input<number>();
-  player$?: Observable<Player>;
-
-  constructor() {
-    effect(() => {
-      // Fetch player data from the database
-      this.player$ = this._backend.getPlayer(this.playerID()!);
-    });
-  }
+  playerID = input.required<number>();
+  playerResource = rxResource({
+    params: () => ({ playerId: this.playerID() }),
+    stream: ({ params }) => this._backend.getPlayer(params.playerId),
+  });
 
   changePlayerPaidStatus(isPaid: boolean) {
     this._backend
