@@ -1,4 +1,5 @@
 import { Component, inject, input } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +9,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { BackendService } from '../../backend-service';
-import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-player-admin',

@@ -1,4 +1,5 @@
-import { Component, effect, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, computed } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -29,23 +30,62 @@ import { AddWeek } from '../week/add-week/add-week';
 export class AdminDashboard implements OnInit {
   private _backend = inject(BackendService);
   private _addWeekSheet = inject(MatBottomSheet);
-  players = signal<Player[]>([]); // All players fetched from the backend
-  activePlayers = signal<Player[]>([]); // Only active players
-  rsvps = signal<number[]>([]); // List of user IDs who have RSVP'd 'in'
+  players = signal<Player[]>([]); // All players fetched from the backend during onInit
   weekID = signal<number>(0); // Currently selected week ID
-  nPlayerIn = signal<number>(0); // Number of players who have RSVP'd 'in'
 
-  constructor() {
-    effect(() => {
-      // Preventing fetching RSVPs for weekID 0, which is the initial state
-      if (this.weekID() > 0) {
-        // Update player list. Only keep active players
-        this.updateActivePlayerList(this.weekID());
-        // Fetch RSVPs for the selected week and update the rsvps signal
-        this.fetchWeekRSVPs(this.weekID());
-      }
+  matchDayResource = rxResource({
+    // When weekID changes, fetch the match day details for that week
+    // Return value has a date of the match day
+    params: () => {
+      const weekID = this.weekID();
+      // Only fetch match day details if weekID is greater than 0
+      return weekID > 0 ? { weekID } : undefined;
+    },
+    stream: ({ params }) => this._backend.getWeekDetails(params.weekID),
+  });
+
+  activePlayers = computed(() => {
+    // If match day details are not available or players have not been fetched yet,
+    // return an empty list
+    if (!this.matchDayResource.hasValue() || this.players().length === 0) {
+      return [];
+    }
+    // A list of players that are still active for the selected match day.
+    const matchDay = this.matchDayResource.value().date;
+    // Apply the filtering logic
+    return this.players().filter((player) => {
+      // Active players are those whose active_since date is before the match day
+      // and inactive_since date is after the match day (or null)
+      const activeSince = player.active_since;
+      const inactiveSince = player.inactive_since;
+      return (
+        (!activeSince || activeSince <= matchDay) &&
+        (!inactiveSince || inactiveSince >= matchDay)
+      );
     });
-  }
+  });
+
+  rsvpResource = rxResource({
+    // When weekID changes, fetch the RSVPs for that week
+    // The return of player IDs that have RSVP'd 'in'
+    params: () => {
+      const weekID = this.weekID();
+      // Only fetch RSVPs if weekID is greater than 0
+      return weekID > 0 ? { weekID } : undefined;
+    },
+    stream: ({ params }) => this._backend.getWeekRSVPs(params.weekID),
+  });
+
+  rsvps = computed(() => {
+    // If RSVPs have not been fetched yet, return an empty list
+    if (!this.rsvpResource.hasValue()) {
+      return [];
+    }
+    // Extract user IDs from the RSVPs
+    return this.rsvpResource.value().map((rsvp) => rsvp.user_id);
+  });
+
+  rsvpCount = computed(() => this.rsvps().length); // Number of players who have RSVP'd 'in'
 
   ngOnInit() {
     this._backend
@@ -59,39 +99,9 @@ export class AdminDashboard implements OnInit {
       });
   }
 
-  RSVPChange(change: number) {
+  RSVPChange() {
     // Update the count of players from player-card component output signal
-    // Change will be either +1 or -1
-    this.nPlayerIn.update((n) => n + change);
-  }
-
-  private updateActivePlayerList(weekID: number) {
-    // First, need to get match day
-    this._backend.getWeekDetails(weekID).subscribe((matchDay) => {
-      // Active players are those whose active_since date is before the match day
-      // and inactive_since date is after the match day (or null)
-      this.activePlayers.set(
-        this.players().filter((player) => {
-          // Apply the filtering logic
-          const activeSince = player.active_since;
-          const inactiveSince = player.inactive_since;
-          return (
-            (!activeSince || activeSince <= matchDay.date) &&
-            (!inactiveSince || inactiveSince >= matchDay.date)
-          );
-        }),
-      );
-    });
-  }
-
-  private fetchWeekRSVPs(weekID: number) {
-    // Fetch RSVPs for the selected week and update the rsvps signal
-    this._backend.getWeekRSVPs(weekID).subscribe((rsvps) => {
-      // Extract user IDs from the RSVPs
-      this.rsvps.set(rsvps.map((rsvp) => rsvp.user_id));
-      // Count how many players have RSVP'd
-      this.nPlayerIn.set(this.rsvps().length);
-    });
+    this.rsvpResource.reload(); // Reload RSVPs to get the updated that sync with the backend
   }
 
   openAddWeekSheet() {

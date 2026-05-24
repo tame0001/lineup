@@ -10,7 +10,7 @@
         [player]="player"
         [rsvpInput]="rsvps().includes(player.id)"
         [weekID]="weekID()"
-        (rsvpOutput)="RSVPChange($event)"
+        (rsvpOutput)="RSVPChange()"
       ></app-player-card>
     } @empty {
       <!-- No active players to display -->
@@ -35,7 +35,7 @@
         >
           <mat-icon>more_time</mat-icon>
         </button>
-        <div>{{ nPlayerIn() }} players have RSVP'd 'in'</div>
+        <div>{{ rsvpCount() }} players have RSVP'd 'in'</div>
       </div>
       <!-- Line up panel -->
       <div class="row-span-3"></div>

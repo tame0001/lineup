@@ -19,14 +19,13 @@ import { BackendService } from '../../backend-service';
   styleUrls: ['./player-card.scss'],
 })
 export class PlayerCard {
+  private _backend = inject(BackendService);
   player = input.required<Player>();
   cardClass = signal<string>('out');
   rsvpInput = input<boolean>(false);
   rsvp = signal<RSVP | null>(null);
   weekID = input.required<number>();
-  rsvpOutput = output<number>();
-
-  private _backend = inject(BackendService);
+  rsvpOutput = output();
 
   constructor() {
     effect(() => {
@@ -50,10 +49,9 @@ export class PlayerCard {
       week_id: this.weekID(),
       status,
     });
-    this._backend.postPlayerRSVP(this.rsvp()!).subscribe((rsvp) => {
-      // Emit an event or update number of RSVPs in the parent component
-      // If rsvp.status is true, emit +1, else emit -1
-      this.rsvpOutput.emit(rsvp.status ? 1 : -1);
+    this._backend.postPlayerRSVP(this.rsvp()!).subscribe(() => {
+      // Emit an event to update number of RSVPs in the parent component
+      this.rsvpOutput.emit();
     });
   }
 }
